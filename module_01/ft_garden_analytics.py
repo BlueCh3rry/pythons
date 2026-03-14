@@ -2,6 +2,9 @@ class GardenManager:
     def __init__(self, name):
         self.name = name
 
+    def create_garden_network():
+        pass
+
 
 class Plant:
     def __init__(self, name):

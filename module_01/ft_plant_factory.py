@@ -8,12 +8,12 @@ class Plant:
         return f"Created: {self.name} ({self.height}cm {self.age} days)"
 
 
-def create_plant(name, height, age):
+def create_plant(name, height, age) -> Plant:
     return Plant(name, height, age)
 
 
 def main():
-    print("=== Plant Factory Output ===\n")
+    print("=== Plant Factory Output ===")
     plants = [
         ("Rose", 25, 30),
         ("Oak", 200, 365),

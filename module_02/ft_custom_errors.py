@@ -13,7 +13,7 @@ class WaterError(GardenError):
     pass
 
 
-def garden_operations(action):
+def garden_operations(action: str) -> :
     if action == "plant":
         raise PlantError("The tomato plant is wilting!")
     elif action == "water":
@@ -22,7 +22,7 @@ def garden_operations(action):
         raise GardenError("Unknown garden operation!")
 
 
-def custom_error_types():
+def custom_error_types() -> str:
     try:
         print("Testing PlantError...")
         garden_operations("plant")
@@ -40,12 +40,12 @@ def custom_error_types():
         print("Caught PlantError:", e)
     except WaterError as e:
         print("Caught WaterError:", e)
-    print("\nAll custom error types work correctly!")
+    return "\nAll custom error types work correctly!"
 
 
-def main():
+def main() -> None:
     print("=== Custom Garden Error Demo ===\n")
-    custom_error_types()
+    print(custom_error_types())
 
 
 if __name__ == "__main__":
