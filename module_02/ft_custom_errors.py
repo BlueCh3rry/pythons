@@ -13,7 +13,7 @@ class WaterError(GardenError):
     pass
 
 
-def garden_operations(action: str) -> :
+def garden_operations(action: str) -> None:
     if action == "plant":
         raise PlantError("The tomato plant is wilting!")
     elif action == "water":

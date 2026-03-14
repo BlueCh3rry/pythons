@@ -1,4 +1,4 @@
-def water_plants(plant_list):
+def water_plants(plant_list: list) -> str:
     print("Opening watering system")
     try:
         for plant in plant_list:
@@ -8,17 +8,17 @@ def water_plants(plant_list):
     except ValueError as e:
         print("Error:", e, "- invalid plant!")
     finally:
-        print("Closing watering system (cleanup)")
+        return "Closing watering system (cleanup)"
 
 
 def test_watering_system():
-    err_plants = ["tomato", None, "carrots"]
     plants = ["tomato", "lettuce", "carrots"]
+    err_plants = ["tomato", None, "carrots"]
     print("Testing normal watering...")
-    water_plants(plants)
+    print(water_plants(plants))
     print("Watering completed successfully!\n")
     print("\nTesting with error...")
-    water_plants(err_plants)
+    print(water_plants(err_plants))
     print("\nCleanup always happens, even with errors!")
 
 
