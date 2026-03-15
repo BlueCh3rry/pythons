@@ -9,12 +9,12 @@ class WaterError(Exception):
 
 
 class SunlightError(Exception):
-    """Error related to watering problems"""
+    """Error related to sunlight problems"""
     pass
 
 
-def check_plant_health(name: str, level: int, hours: int) -> str:
-    if not name:
+def check_plant_health(name: str, level: int, hours: int) -> None:
+    if not name or not name.strip():
         raise PlantError("Plant name cannot be empty!")
     if level < 1:
         raise WaterError(f"Water level {level} is too low (min 1)")
@@ -24,19 +24,35 @@ def check_plant_health(name: str, level: int, hours: int) -> str:
         raise SunlightError(f"Sunlight hours {hours} is too low (min 2)")
     elif hours > 12:
         raise SunlightError(f"Sunlight hours {hours} is too high (max 12)")
-    return f"Plant '{name}' is healthy!"
+    print(f"Plant '{name}' is healthy!")
 
-# faire avec try/except
+
 def test_plant_checks() -> None:
-    print("\nTesting normal watering...")
-    print(check_plant_health("tomato", 5, 6))
-    print("\nTesting empty plant name...")
-    print(check_plant_health("", 5, 6))
-    print("\nTesting bad water level...")
-    print(check_plant_health("tomato", 15, 6))
-    print("\nTesting bad sunlight hours...")
-    print(check_plant_health("tomato", 5, 0))
-    print("All error raising tests completed!")
+    try:
+        print("\nTesting normal watering...")
+        check_plant_health("tomato", 5, 6)
+    except PlantError as e:
+        print(e)
+
+    try:
+        print("\nTesting empty plant name...")
+        check_plant_health("", 5, 6)
+    except PlantError as e:
+        print(e)
+
+    try:
+        print("\nTesting bad water level...")
+        check_plant_health("tomato", 15, 6)
+    except WaterError as e:
+        print(e)
+
+    try:
+        print("\nTesting bad sunlight hours...")
+        check_plant_health("tomato", 5, 0)
+    except SunlightError as e:
+        print(e)
+
+    print("\nAll error raising tests completed!")
 
 
 def main() -> None:

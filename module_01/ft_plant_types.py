@@ -10,7 +10,7 @@ class Flower(Plant):
         super().__init__(name, height, age)
         self.color = color
 
-    def bloom(self):
+    def bloom(self) -> None:
         print(f"{self.name} (Flower): {self.height}cm,",
               f"{self.age} days, red color")
         print(self.name, "is blooming beautifully!\n")
@@ -21,7 +21,7 @@ class Tree(Plant):
         super().__init__(name, height, age)
         self.trunk_diameter = trunk_diameter
 
-    def produce_shade(self):
+    def produce_shade(self) -> None:
         print(f"{self.name} (Tree): {self.height}cm, {self.age} days,",
               f"{self.trunk_diameter}cm diameter")
         print(f"{self.name} provides",
@@ -33,11 +33,10 @@ class Vegetable(Plant):
         super().__init__(name, height, age)
         if harvest_season not in ("winter", "spring", "summer", "autumn"):
             print(harvest_season, "Invalid season entered")
-            # return 0
         self.harvest_season = harvest_season
         self.nutri_value = nutri_value
 
-    def get_info(self):
+    def get_info(self) -> None:
         print(f"{self.name} (Vegetable): {self.height}cm, {self.age} days,",
               f"{self.harvest_season} harvest")
         print(f"{self.name} is rich in vitamin {self.nutri_value}\n")

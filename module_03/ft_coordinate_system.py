@@ -2,7 +2,7 @@ import sys
 import math
 
 
-def check_char():
+def check_char() -> tuple:
     list_dis = []
     for arg in sys.argv[1:]:
         parts = arg.split(",")
@@ -21,7 +21,7 @@ def check_char():
     return tuple(list_dis)
 
 
-def check_digit():
+def check_digit() -> tuple:
     list_dis = []
     for arg in sys.argv[1:]:
         try:
@@ -35,21 +35,20 @@ def check_digit():
     return tuple(list_dis)
 
 
-def check_position():
+def check_position() -> tuple:
     for arg in sys.argv[1:]:
         if "," in arg:
             return check_char()
     return check_digit()
 
 
-def main():
+def main() -> str:
     print("=== Game Coordinate System ===\n")
     if len(sys.argv) == 1:
-        print("No coordinates provided")
-        return 0
+        return "No coordinates provided"
     tuple_dis = check_position()
     if tuple_dis == 0:
-        return 0
+        return "No coordinates"
     x2 = int(tuple_dis[0])
     y2 = int(tuple_dis[1])
     z2 = int(tuple_dis[2])

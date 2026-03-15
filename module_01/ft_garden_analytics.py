@@ -1,8 +1,8 @@
 class GardenManager:
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
 
-    def create_garden_network():
+    def create_garden_network() -> None:
         pass
 
 

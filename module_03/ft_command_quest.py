@@ -1,7 +1,7 @@
 import sys
 
 
-def main():
+def main() -> None:
     print("=== Command Quest ===")
     if len(sys.argv) == 1:
         print("No arguments provided!")

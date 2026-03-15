@@ -5,7 +5,7 @@ def demo():
     pass
 
 
-def invent_init():
+def invent_init() -> dict:
     inventory = {}
     if len(sys.argv) == 1:
         raise ValueError("No object provided.")
@@ -23,29 +23,29 @@ def invent_init():
     return inventory
 
 
-def count_quantity(inventory):
+def count_quantity(inventory: dict) -> int:
     count = 0
     for name, quantity in inventory.items():
         count += int(quantity)
     return count
 
 
-def count_items(inventory):
+def count_items(inventory: dict) -> int:
     count = 0
     for name in inventory.items():
         count += 1
     return count
 
 
-def current_invent(inventory):
+def current_invent(inventory: dict) -> None:
     print("=== Current Inventory ===")
     for name, qty in inventory.items():
         usage = qty/count_quantity(inventory)*100
-        print(f"{name}: {qty} units ({"%.2f" % usage}%)")
+        print(f"{name}: {qty} units ({'%.2f' % usage}%)")
     print()
 
 
-def invent_stats(inventory):
+def invent_stats(inventory: dict) -> None:
     print("=== Inventory Statistics ===")
     first = next(iter(inventory))
     name_lowest = name_highest = first
@@ -61,7 +61,7 @@ def invent_stats(inventory):
     print(f"Most abundant: {name_lowest} ({qty_lowest} units)\n")
 
 
-def invent_analysis(inventory):
+def invent_analysis(inventory: dict):
     print("=== Inventory System Analysis ===")
     count = count_quantity(inventory)
     print(f"Total items in inventory: {count}")
@@ -69,7 +69,7 @@ def invent_analysis(inventory):
     print(f"Unique item types: {items}\n")
 
 
-def main():
+def main() -> None:
     inventory = invent_init()
     invent_analysis(inventory)
     current_invent(inventory)
