@@ -11,7 +11,7 @@ def water_plants(plant_list: list) -> str:
         return "Closing watering system (cleanup)"
 
 
-def test_watering_system():
+def test_watering_system() -> None:
     plants = ["tomato", "lettuce", "carrots"]
     err_plants = ["tomato", None, "carrots"]
     print("Testing normal watering...")
@@ -22,7 +22,7 @@ def test_watering_system():
     print("\nCleanup always happens, even with errors!")
 
 
-def main():
+def main() -> None:
     print("=== Garden Watering System ===\n")
     test_watering_system()
 
