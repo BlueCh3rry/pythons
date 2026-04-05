@@ -25,11 +25,9 @@ class Plant:
 
 
 def main() -> None:
-    p1 = Plant("Rose", 25, 30, 0.8)
-    p2 = Plant("Sunflower", 80, 45, 3)
+    p1 = Plant("Rose", 25.0, 30, 0.8)
     print("=== Garden Plant Growth ===")
     p1.simulate_week()
-    p2.simulate_week()
 
 
 if __name__ == "__main__":

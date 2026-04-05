@@ -4,7 +4,7 @@ class Plant:
         self.height = height
         self.age = age
 
-    def get_info(self) -> str:
+    def show(self) -> str:
         return (f"Created: {self.name} "
                 f"{round(self.height, 1)}cm, {self.age} days old")
 
@@ -23,7 +23,7 @@ def main() -> None:
         ("Fern", 15.0, 120),
     ]
     for name, height, age in plants:
-        print(create_plant(name, height, age).get_info())
+        print(create_plant(name, height, age).show())
 
 
 if __name__ == "__main__":
