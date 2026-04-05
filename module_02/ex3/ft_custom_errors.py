@@ -5,12 +5,12 @@ class GardenError(Exception):
 
 class PlantError(GardenError):
     """Error related to plant problems"""
-    pass
+    "Plant error"
 
 
 class WaterError(GardenError):
     """Error related to watering problems"""
-    pass
+    "Water error"
 
 
 def garden_operations(action: str) -> None:
@@ -34,12 +34,17 @@ def custom_error_types() -> str:
     except WaterError as e:
         print("Caught WaterError:", e)
     try:
-        garden_operations("plant")
-        garden_operations("water")
-    except PlantError as e:
-        print("Caught PlantError:", e)
-    except WaterError as e:
-        print("Caught WaterError:", e)
+        print("\nTesting catching all garden errors...")
+        try:
+            garden_operations("plant")
+        except PlantError as e:
+            print("Caught GardenError:", e)
+        try:
+            garden_operations("water")
+        except WaterError as e:
+            print("Caught GardenError:", e)
+    except GardenError:
+        pass
     return "\nAll custom error types work correctly!"
 
 
