@@ -53,7 +53,7 @@ class Tree(Plant):
 class Seed(Flower):
     def __init__(self, name: str, height: float, age: int,
                  harvest_season: str):
-        super().__init__(name, height, age)
+        super().__init__(self, name, height, age, color, bloomed)
         self.harvest_season = harvest_season
         self.seed = 0
 
@@ -81,10 +81,10 @@ class Seed(Flower):
     def do_thing(self) -> None:
         self.simulate_week()
 
-    def stats(self)
+    # def stats(self):
         
 
-def display_stats()
+# def display_stats()
 
 def check(age) -> bool:
     if age > 365:
@@ -97,7 +97,7 @@ def main():
     print("=== Garden statistics ===")
     flowers = [("Rose", 15.0, 10, "red", False)]
     tree = [("Oak", 200.0, 365, 5.0)]
-    vegetable = [("Tomato", 5.0, 10, "April", 0)]
+    seed = [("Tomato", 5.0, 10, "April", 0)]
     print("=== Check year-old")
     print(f"Is 30 days more than a year? -> {check(30)}")
     print(f"Is 400 days more than a year? -> {check(400)}")
@@ -109,9 +109,9 @@ def main():
     for name, height, age, trunk_diameter, in tree:
         Tree(name, height, age, trunk_diameter).do_thing()
     print()
-    print("=== Vegetable")
-    for name, height, age, harvest_season, nutri_value in vegetable:
-        Vegetable(name, height, age, harvest_season, nutri_value).do_thing()
+    print("=== Seed")
+    for name, height, age, harvest_season, nutri_value in seed:
+        Seed(name, height, age, harvest_season, nutri_value).do_thing()
     print()
 
 
