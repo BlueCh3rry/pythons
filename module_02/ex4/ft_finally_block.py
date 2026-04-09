@@ -19,7 +19,7 @@ def test_watering_system() -> str:
     print("Testing normal watering...")
     for plant in plants:
         try:
-            return water_plants(plant)
+            water_plants(plant)
         except PlantError as e:
             return f"Caught PlantError: {e}"
         finally:
@@ -28,7 +28,7 @@ def test_watering_system() -> str:
     print("Testing invalid plants...")
     for plant2 in err_plants:
         try:
-            return water_plants(plant2)
+            water_plants(plant2)
         except PlantError as e:
             print(f"Caught PlantError: {e}")
             return ".. ending tests and returning to main"

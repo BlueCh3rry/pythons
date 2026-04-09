@@ -3,14 +3,56 @@ class Plant:
         self.name = name
         self.height = height
         self.age = age
+        self.stats = Plant.Stats()
+
+    class Stats():
+        def __init__(self):
+            self.grow_count = 0
+            self.age_count = 0
+            self.show_count = 0
+            self.shade_count = 0
+
+        def grow(self) -> None:
+            self.grow_count += 1
+
+        def age_up(self) -> None:
+            self.age_count += 1
+
+        def show(self) -> None:
+            self.show_count += 1
+
+        def produce_shade(self) -> None:
+            self.shade_count += 1
 
     @classmethod
     def anonymous(self):
-        pass
+        return self("Unknown plant", 0.0, 0)
 
     @staticmethod
     def age_check(age) -> bool:
         return age > 365
+
+    def grow(self, val: float) -> None:
+        self.height = round(self.height + val, 1)
+        self.stats.grow()
+
+    def age_up(self, val: int) -> None:
+        self.age += val
+        self.stats.age_up()
+
+    def show(self) -> None:
+        print(f"{self.name}: {self.height}cm, {self.age} days old")
+        if isinstance(self, (Flower, Seed)):
+            print(f" color: {self.color}")
+            if not self.bloomed:
+                print(f" {self.name} has not bloomed yet")
+            else:
+                print(f" {self.name} is blooming beautifully!")
+            if isinstance(self, Seed):
+                print(f" Seeds: {self.seed}")
+        if isinstance(self, Tree):
+            print(f"Trunk diameter: {round(self.trunk_diameter, 1)}cm")
+        self.stats.show()
 
 
 class Flower(Plant):
@@ -20,44 +62,18 @@ class Flower(Plant):
         self.color = color
         self.bloomed = bloomed
 
-    class Stats(Plant):
-        def __init__(self):
-            super().__init__(self)
-            self.stats_height = 0
-            self.stats_age = 0
-
-        def grow(self, val: float) -> None:
-            self.height = round(self.height + val, 1)
-            self.stats_height += 1
-
-        def age_up(self, val: int) -> None:
-            self.age += val
-
-        def get_grow(self) -> float:
-            return self.stats_height
-
-        def get_age(self) -> int:
-            return self.age
-
     def bloom(self) -> None:
         print(f"[asking the {self.name} to bloom]")
-        self.Stats.grow(8.0)
+        self.grow(8.0)
         if not self.bloomed:
             self.bloomed = True
 
-    def show(self) -> None:
-        print(f"{self.name}: {self.height}cm {self.age} days old\n"
-              f" color: {self.color}")
-        if not self.bloomed:
-            print(f" {self.name} has not bloomed yet")
-        else:
-            print(f" {self.name} is blooming beautifully!")
-        display_stats(self)
-
     def do_thing(self) -> None:
         self.show()
+        display_stats(self)
         self.bloom()
         self.show()
+        display_stats(self)
 
 
 class Tree(Plant):
@@ -69,15 +85,13 @@ class Tree(Plant):
         print(f"[asking the {self.name} to produce shade]")
         print(f"Tree {self.name} now produces a shade of",
               f"{self.height}cm long and {self.trunk_diameter}cm wide.")
-
-    def show(self) -> None:
-        print(f"{self.name} (Tree): {self.height}cm, {self.age} days old\n",
-              f"Trunk diameter: {round(self.trunk_diameter, 1)}cm")
-        display_stats(self)
+        self.stats.produce_shade()
 
     def do_thing(self) -> None:
         self.show()
+        display_stats(self)
         self.produce_shade()
+        display_stats(self)
 
 
 class Seed(Flower):
@@ -91,36 +105,31 @@ class Seed(Flower):
 
     def simulate(self) -> None:
         self.show()
+        display_stats(self)
         print(f"[make {self.name} grow, age and bloom]")
-        self.Stats.grow(8.0)
-        self.Stats.age_up(20)
+        self.grow(8.0)
+        self.age_up(20)
         self.seed_up(42)
         self.show()
-
-    def show(self) -> None:
-        print(f"{self.name}: {self.height}cm, {self.age} days old\n",
-              f" color: {self.color}")
-        if not self.bloomed:
-            print(f" {self.name} has not bloomed yet")
-        else:
-            print(f" {self.name} is blooming beautifully!")
-        print(f" Seeds: {self.seed}")
-        # display_stats()
+        display_stats(self)
 
     def do_thing(self) -> None:
         self.simulate()
 
 
-def display_stats(plant: Plant) -> None:
-    print(f"[statistics for {plant.name}]")
-    print(f"Stats: {plant.Stats.get_grow()} grow, {plant.Stats.get_age()} age, {plant.Stats.get_age()} show")
+def display_stats(self: Plant | Flower | Tree | Seed) -> None:
+    print(f"[statistics for {self.name}]")
+    print(f"Stats: {self.stats.grow_count} grow, {self.stats.age_count} age,",
+          f"{self.stats.show_count} show")
+    if isinstance(self, Tree):
+        print(f" {self.stats.shade_count} shade")
 
 
 def main():
     print("=== Garden statistics ===")
     flowers = [("Rose", 15.0, 10, "red", False)]
     tree = [("Oak", 200.0, 365, 5.0)]
-    seed = [("Tomato", 5.0, 10, "yellow", False, 0)]
+    seed = [("Sunflower", 5.0, 10, "yellow", False, 0)]
     print("=== Check year-old")
     print(f"Is 30 days more than a year? -> {Plant.age_check(30)}")
     print(f"Is 400 days more than a year? -> {Plant.age_check(400)}\n")
@@ -137,47 +146,11 @@ def main():
         Seed(name, height, age, color, bloomed, seeds).do_thing()
     print()
 
+    print("== Anonymous")
+    secret_plant = Plant.anonymous()
+    secret_plant.show()
+    display_stats(secret_plant)
+
 
 if __name__ == "__main__":
     main()
-
-"""
-=== Flower
-
-
-[asking the rose to grow and bloom]
-Rose: 23.0cm, 10 days old
-Color: red
-Rose is blooming beautifully!
-[statistics for Rose]
-Stats: 1 grow, 0 age, 2 show
-
-=== Tree
-
-[statistics for Oak]
-Stats: 0 grow, 0 age, 1 show
-0 shade
-[asking the oak to produce shade]
-Tree Oak now produces a shade of 200.0cm long and 5.0cm wide.
-[statistics for Oak]
-Stats: 0 grow, 0 age, 1 show
-1 shade
-
-=== Seed
-Sunflower: 80.0cm, 45 days old
-Color: yellow
-Sunflower has not bloomed yet
-Seeds: 0
-[make sunflower grow, age and bloom]
-Sunflower: 110.0cm, 65 days old
-Color: yellow
-Sunflower is blooming beautifully!
-Seeds: 42
-[statistics for Sunflower]
-Stats: 1 grow, 1 age, 2 show
-
-=== Anonymous
-Unknown plant: 0.0cm, 0 days old
-[statistics for Unknown plant]
-Stats: 0 grow, 0 age, 1 show
-"""
