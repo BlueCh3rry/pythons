@@ -6,7 +6,7 @@ def main() -> None:
     if len(sys.argv) == 1:
         print("No arguments provided!")
     print("Program name:", sys.argv[0])
-    print("Total arguments:", len(sys.argv) - 1)
+    print("Arguments received", len(sys.argv) - 1)
     count = 0
     for arg in sys.argv[1:]:
         count += 1
