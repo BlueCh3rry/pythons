@@ -15,13 +15,14 @@ class Plant:
         self.age += 1
 
     def simulate_week(self) -> None:
+        print(self.get_info())
         for day in range(1, 8):
             print(f"=== Day {day} ===")
-            print(self.get_info())
             self.grow()
             self.age_up()
+            print(self.get_info())
 
-        print(f"Growth this week: {day-1}cm\n")
+        print(f"Growth this week: {round(day * self.growth_rate, 1)}cm\n")
 
 
 def main() -> None:

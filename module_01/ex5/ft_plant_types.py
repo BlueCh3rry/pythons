@@ -4,6 +4,20 @@ class Plant:
         self.height = height
         self.age = age
 
+    def show(self) -> None:
+        print(f"{self.name}: {self.height}cm, {self.age} days old")
+        if isinstance(self, Flower):
+            print(f" color: {self.color}")
+            if not self.bloomed:
+                print(f" {self.name} has not bloomed yet")
+            else:
+                print(f" {self.name} is blooming beautifully!")
+        if isinstance(self, Tree):
+            print(f"Trunk diameter: {round(self.trunk_diameter, 1)}cm")
+        if isinstance(self, Vegetable):
+            print(f" Harvest season: {self.harvest_season}\n",
+                  f"Nutritional value: {self.nutri_value}")
+
 
 class Flower(Plant):
     def __init__(self, name: str, height: float, age: int,
@@ -16,14 +30,6 @@ class Flower(Plant):
         print(f"[asking the {self.name} to bloom]")
         if not self.bloomed:
             self.bloomed = True
-
-    def show(self) -> None:
-        print(f"{self.name}: {self.height}cm {self.age} days old\n"
-              f" color: {self.color}")
-        if not self.bloomed:
-            print(f" {self.name} has not bloomed yet")
-        else:
-            print(f" {self.name} is blooming beautifully!")
 
     def do_thing(self) -> None:
         self.show()
@@ -40,10 +46,6 @@ class Tree(Plant):
         print(f"[asking the {self.name} to produce shade]")
         print(f"Tree {self.name} now produces a shade of",
               f"{self.height}cm long and {self.trunk_diameter}cm wide.")
-
-    def show(self) -> None:
-        print(f"{self.name} (Tree): {self.height}cm, {self.age} days old\n",
-              f"Trunk diameter: {round(self.trunk_diameter, 1)}cm")
 
     def do_thing(self) -> None:
         self.show()
@@ -74,11 +76,6 @@ class Vegetable(Plant):
             self.age_up()
             self.nutri_up()
         self.show()
-
-    def show(self) -> None:
-        print(f"{self.name}: {self.height}cm, {self.age} days old\n",
-              f" Harvest season: {self.harvest_season}\n",
-              f" Nutritional value: {self.nutri_value}")
 
     def do_thing(self) -> None:
         self.simulate_week()
