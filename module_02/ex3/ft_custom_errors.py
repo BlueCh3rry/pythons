@@ -1,16 +1,19 @@
 class GardenError(Exception):
     """Base class for all garden-related errors"""
-    pass
+    def __init__(self, message="General garden error"):
+        super().__init__(message)
 
 
 class PlantError(GardenError):
     """Error related to plant problems"""
-    "Plant error"
+    def __init__(self, message="Unknown plant error"):
+        super().__init__(message)
 
 
 class WaterError(GardenError):
     """Error related to watering problems"""
-    "Water error"
+    def __init__(self, message="Unknown watering error"):
+        super().__init__(message)
 
 
 def garden_operations(action: str) -> None:
@@ -22,7 +25,7 @@ def garden_operations(action: str) -> None:
         raise GardenError("Unknown garden operation!")
 
 
-def custom_error_types() -> str:
+def custom_error_types() -> None:
     try:
         print("Testing PlantError...")
         garden_operations("plant")
@@ -33,24 +36,23 @@ def custom_error_types() -> str:
         garden_operations("water")
     except WaterError as e:
         print("Caught WaterError:", e)
+
+    print("\nTesting catching all garden errors...")
     try:
-        print("\nTesting catching all garden errors...")
-        try:
-            garden_operations("plant")
-        except PlantError as e:
-            print("Caught GardenError:", e)
-        try:
-            garden_operations("water")
-        except WaterError as e:
-            print("Caught GardenError:", e)
-    except GardenError:
-        pass
-    return "\nAll custom error types work correctly!"
+        garden_operations("plant")
+    except GardenError as e:
+        print("Caught GardenError:", e)
+
+    try:
+        garden_operations("water")
+    except GardenError as e:
+        print("Caught GardenError:", e)
+    print("\nAll custom error types work correctly!")
 
 
 def main() -> None:
-    print("=== Custom Garden Error Demo ===\n")
-    print(custom_error_types())
+    print("=== Custom Garden Errors Demo ===\n")
+    custom_error_types()
 
 
 if __name__ == "__main__":

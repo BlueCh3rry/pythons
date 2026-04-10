@@ -29,7 +29,7 @@ def test_error_types() -> str:
         print("Testing operation 3...")
         garden_operations(3)
     except TypeError as e:
-        print("Caught KeyError: ", e)
+        print("Caught TypeError: ", e)
     try:
         print("Testing operation 4...")
         garden_operations(0)
@@ -42,7 +42,7 @@ def test_error_types() -> str:
 
 
 def main() -> None:
-    print("=== Garden Error Types Demo ===\n")
+    print("=== Garden Error Types Demo ===")
     print(test_error_types())
 
 

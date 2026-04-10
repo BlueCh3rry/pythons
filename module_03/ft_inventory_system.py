@@ -1,10 +1,6 @@
 import sys
 
 
-def demo():
-    pass
-
-
 def invent_init() -> dict:
     inventory = {}
     if len(sys.argv) == 1:
@@ -15,11 +11,14 @@ def invent_init() -> dict:
             if ':' in part:
                 name, qty_str = part.split(':', 1)
                 try:
-                    inventory[name] = int(qty_str)
-                except ValueError:
-                    raise ValueError(f"Error: Invalid quantity for {name}.\n")
+                    if name not in inventory:
+                        inventory[name] = int(qty_str)
+                    else:
+                        print(f"Redundant item '{name}' - discarding")
+                except ValueError as e:
+                    print(f"Error: Invalid quantity for '{name}': {e}\n")
             else:
-                raise SyntaxError(f"Invalid 'name:number' format, got: {part}")
+                print(f"Error - invalid parameter '{part}'")
     return inventory
 
 
@@ -38,15 +37,24 @@ def count_items(inventory: dict) -> int:
 
 
 def current_invent(inventory: dict) -> None:
-    print("=== Current Inventory ===")
     for name, qty in inventory.items():
         usage = qty/count_quantity(inventory)*100
-        print(f"{name}: {qty} units ({'%.2f' % usage}%)")
+        print(f"Item {name} represents {'%.2f' % usage}%")
     print()
 
 
+def invent_analysis(inventory: dict):
+    name_list = []
+    for name, qty in inventory.items():
+        name_list.append(name)
+    print(f"Got inventory: {inventory.items()}")
+    print(f"Item list: {name_list}")
+    items = count_items(inventory)
+    count = count_quantity(inventory)
+    print(f"Total quantity of the {items} items: {count}\n")
+
+
 def invent_stats(inventory: dict) -> None:
-    print("=== Inventory Statistics ===")
     first = next(iter(inventory))
     name_lowest = name_highest = first
     qty_highest = qty_lowest = inventory[first]
@@ -57,35 +65,17 @@ def invent_stats(inventory: dict) -> None:
         if qty > qty_highest:
             qty_highest = qty
             name_highest = name
-    print(f"Most abundant: {name_highest} ({qty_highest} units)")
-    print(f"Most abundant: {name_lowest} ({qty_lowest} units)\n")
-
-
-def invent_analysis(inventory: dict):
-    print("=== Inventory System Analysis ===")
-    count = count_quantity(inventory)
-    print(f"Total items in inventory: {count}")
-    items = count_items(inventory)
-    print(f"Unique item types: {items}\n")
+    print(f"Item most abundant: {name_highest} with quantity {qty_highest}")
+    print(f"Item least abundant: {name_lowest} with quantity {qty_lowest}\n")
 
 
 def main() -> None:
+    print("=== Inventory System Analysis ===")
     inventory = invent_init()
     invent_analysis(inventory)
+
     current_invent(inventory)
     invent_stats(inventory)
-
-    print("=== Item Categories ===")
-
-    print("=== Management Suggestions ===")
-
-    print("=== Dictionary Properties Demo ===")
-    name_list = []
-    for name, qty in inventory.items():
-        name_list.append(name)
-    qty_list = [inventory[name] for name in inventory.keys()]
-    print(name_list)
-    print(qty_list)
 
 
 if __name__ == "__main__":

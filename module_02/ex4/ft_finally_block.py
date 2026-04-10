@@ -1,15 +1,15 @@
 class PlantError(Exception):
     """Error related to plant problems"""
-    pass
+    def __init__(self, message="Unknown plant error"):
+        super().__init__(message)
 
 
 def water_plants(plant_name: str) -> None:
-    if plant_name in ("tomato", "lettuce", "carrots"):
-        raise PlantError(f"Invalid plant name to water: {plant_name}")
     try:
-        print(f"Watering {plant_name} [OK]")
+        if plant_name.capitalize():
+            print(f"Watering {plant_name} [OK]")
     except PlantError:
-        raise PlantError
+        raise PlantError(f"Invalid plant name to water: {plant_name}")
 
 
 def test_watering_system() -> None:
