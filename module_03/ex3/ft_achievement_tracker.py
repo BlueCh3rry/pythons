@@ -19,10 +19,10 @@ def gen_player_achievements() -> set:
 
 def players_init() -> dict:
     return {
-        "alice": gen_player_achievements(),
-        "bob": gen_player_achievements(),
-        "charlie": gen_player_achievements(),
-        "dylan": gen_player_achievements()
+        "Alice": gen_player_achievements(),
+        "Bob": gen_player_achievements(),
+        "Charlie": gen_player_achievements(),
+        "Dylan": gen_player_achievements()
     }
 
 
@@ -47,7 +47,6 @@ def unique_badges_per_player(players: dict) -> dict:
                 others = others.union(other_badges)
         unique = badges.difference(others)
         result[name] = unique
-
     return result
 
 
@@ -67,19 +66,19 @@ def main():
         print(f"Player {name} achievements: {badges}")
 
     all_badges = all_unique_badges(players)
-    print(f"\nAll unique achievements: {all_badges}")
+    print(f"\nAll distinct achievements: {all_badges}")
 
     common = shared_badge_all(players)
     print(f"\nCommon achievement: {common}\n")
 
     unique = unique_badges_per_player(players)
     for name, badges in unique.items():
-        print(f"{name} unique achievements: {badges}")
+        print(f"Only {name} has: {badges}")
     print()
 
     missing = missing_badges_per_player(players)
     for name, badges in missing.items():
-        print(f"{name} missing achievements: {badges}")
+        print(f"{name} is missing: {badges}")
 
 
 if __name__ == "__main__":

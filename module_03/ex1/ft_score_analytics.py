@@ -14,6 +14,7 @@ def main() -> None:
         except ValueError:
             print(f"Invalid parameter: '{arg}'")
     if array:
+        print("Scores processed:", array)
         print("Total players:", len(array))
         print("Total score:", sum(array))
         print("Average score:", sum(array) / len(array))

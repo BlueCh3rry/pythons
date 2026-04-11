@@ -16,7 +16,7 @@ def invent_init() -> dict:
                     else:
                         print(f"Redundant item '{name}' - discarding")
                 except ValueError as e:
-                    print(f"Error: Invalid quantity for '{name}': {e}\n")
+                    print(f"Quantity error for '{name}': {e}")
             else:
                 print(f"Error - invalid parameter '{part}'")
     return inventory
@@ -39,19 +39,18 @@ def count_items(inventory: dict) -> int:
 def current_invent(inventory: dict) -> None:
     for name, qty in inventory.items():
         usage = qty/count_quantity(inventory)*100
-        print(f"Item {name} represents {'%.2f' % usage}%")
-    print()
+        print(f"Item {name} represents {'%.1f' % usage}%")
 
 
 def invent_analysis(inventory: dict):
     name_list = []
     for name, qty in inventory.items():
         name_list.append(name)
-    print(f"Got inventory: {inventory.items()}")
+    print(f"Got inventory: {inventory}")
     print(f"Item list: {name_list}")
     items = count_items(inventory)
     count = count_quantity(inventory)
-    print(f"Total quantity of the {items} items: {count}\n")
+    print(f"Total quantity of the {items} items: {count}")
 
 
 def invent_stats(inventory: dict) -> None:
@@ -66,7 +65,7 @@ def invent_stats(inventory: dict) -> None:
             qty_highest = qty
             name_highest = name
     print(f"Item most abundant: {name_highest} with quantity {qty_highest}")
-    print(f"Item least abundant: {name_lowest} with quantity {qty_lowest}\n")
+    print(f"Item least abundant: {name_lowest} with quantity {qty_lowest}")
 
 
 def main() -> None:
@@ -76,6 +75,9 @@ def main() -> None:
 
     current_invent(inventory)
     invent_stats(inventory)
+
+    inventory.update({"magic_item": 1})
+    print(f"Got inventory: {inventory}")
 
 
 if __name__ == "__main__":
