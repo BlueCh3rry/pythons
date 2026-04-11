@@ -4,12 +4,10 @@ class PlantError(Exception):
         super().__init__(message)
 
 
-def water_plants(plant_name: str) -> None:
-    try:
-        if plant_name.capitalize():
-            print(f"Watering {plant_name} [OK]")
-    except PlantError:
-        raise PlantError(f"Invalid plant name to water: {plant_name}")
+def water_plant(plant_name: str) -> None:
+    if plant_name != plant_name.capitalize():
+        raise PlantError(f"Invalid plant name to water: '{plant_name}'")
+    print(f"Watering {plant_name}: [OK]")
 
 
 def test_watering_system() -> None:
@@ -19,7 +17,7 @@ def test_watering_system() -> None:
     print("Opening watering system")
     try:
         for plant in plants:
-            water_plants(plant)
+            water_plant(plant)
     except PlantError as e:
         print(f"Caught PlantError: {e}")
     finally:
@@ -29,13 +27,14 @@ def test_watering_system() -> None:
     print("Opening watering system")
     try:
         for plant2 in err_plants:
-            water_plants(plant2)
+            water_plant(plant2)
     except PlantError as e:
         print(f"Caught PlantError: {e}")
         print(".. ending tests and returning to main")
+        return
     finally:
         print("Closing watering system")
-    print("\nCleanup always happens, even with errors!")
+        print("\nCleanup always happens, even with errors!")
 
 
 def main() -> None:
