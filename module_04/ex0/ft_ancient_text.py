@@ -12,7 +12,7 @@ def main() -> None:
             file.close()
             print(f"\n---\nFile '{file.name}' closed.")
         except IOError as e:
-            print(f"Error opening file {file}: {e}")
+            print(f"Error opening file {sys.argv[1]}: {e}")
             return
     else:
         print("Usage: ft_ancient_text.py <file>")
