@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Any, Union
+from typing import Any
 
 
 class DataProcessor(ABC):
     def __init__(self):
-        self._storage: list[str] = []
-        self._counter = 0
+        self.storage = []
+        self.counter = 0
 
     @abstractmethod
     def validate(self, data: Any) -> bool:
@@ -16,12 +16,11 @@ class DataProcessor(ABC):
         pass
 
     def output(self) -> tuple[int, str]:
-        if not self._storage:
+        if not self.storage:
             raise Exception("No data to output")
-
-        value = self._storage.pop(0)
-        rank = self._counter
-        self._counter += 1
+        value = self.storage.pop(0)
+        rank = self.counter
+        self.counter += 1
         return rank, value
 
 
@@ -33,15 +32,14 @@ class NumericProcessor(DataProcessor):
             return all(isinstance(x, (int, float)) for x in data)
         return False
 
-    def ingest(self, data: Union[int, float, list[Union[int, float]]]) -> None:
+    def ingest(self, data: int | float | list[int | float]) -> None:
         if not self.validate(data):
             raise Exception("Improper numeric data")
-
         if isinstance(data, list):
             for x in data:
-                self._storage.append(str(x))
+                self.storage.append(str(x))
         else:
-            self._storage.append(str(data))
+            self.storage.append(str(data))
 
 
 class TextProcessor(DataProcessor):
@@ -52,14 +50,14 @@ class TextProcessor(DataProcessor):
             return all(isinstance(x, str) for x in data)
         return False
 
-    def ingest(self, data: Union[str, list[str]]) -> None:
+    def ingest(self, data: str | list[str]) -> None:
         if not self.validate(data):
             raise Exception("Improper text data")
 
         if isinstance(data, list):
-            self._storage.extend(data)
+            self.storage.extend(data)
         else:
-            self._storage.append(data)
+            self.storage.append(data)
 
 
 class LogProcessor(DataProcessor):
@@ -76,7 +74,7 @@ class LogProcessor(DataProcessor):
             return all(is_valid_dict(item) for item in data)
         return False
 
-    def ingest(self, data: Union[dict[str, str], list[dict[str, str]]]) -> None:
+    def ingest(self, data: dict[str, str]) -> None:
         if not self.validate(data):
             raise Exception("Improper log data")
 
@@ -87,9 +85,9 @@ class LogProcessor(DataProcessor):
 
         if isinstance(data, list):
             for item in data:
-                self._storage.append(format_log(item))
+                self.storage.append(format_log(item))
         else:
-            self._storage.append(format_log(data))
+            self.storage.append(format_log(data))
 
 
 def handle_num():
