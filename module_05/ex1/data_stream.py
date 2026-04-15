@@ -102,6 +102,7 @@ class DataStream():
 
 
 def handle_num():
+    ds = DataStream()
     np = NumericProcessor()
     print(" Trying to validate input '42':", np.validate(42))
     print(" Trying to validate input 'Hello':", np.validate("Hello"))
