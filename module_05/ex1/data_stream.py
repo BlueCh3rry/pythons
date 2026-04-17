@@ -59,12 +59,12 @@ class TextProcessor(DataProcessor):
             self.counter += 1
 
 
+def is_valid_dict(d):
+    return (isinstance(d, dict) and "log_level" in d and "log_message" in d)
+
+
 class LogProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
-        def is_valid_dict(d):
-            return (isinstance(d, dict) and 
-                    "log_level" in d and "log_message" in d)
-
         if is_valid_dict(data):
             return True
         if isinstance(data, list) and data:
@@ -98,17 +98,15 @@ class DataStream():
                 if proc.validate(item):
                     proc.ingest(item)
                     handled = True
-                    break
             if not handled:
-                print("DataStream error - Can't process element in stream:",
-                      f"{item}")
+                print("DataStream error - Can't process element "
+                      "in stream:", item)
 
     def print_processors_stats(self) -> None:
         print("== DataStream statistics ==")
         if not self.processors:
             print("No processor found, no data")
             return
-
         for proc in self.processors:
             name = proc.__class__.__name__.replace("Processor", " Processor")
             print(f"{name}: total {proc.counter} items processed, "
@@ -125,11 +123,13 @@ def main():
     np = NumericProcessor()
     ds.register_processor(np)
 
-    stream = ['Hello world', [3.14, -1, 2.71],
-              [{'log_level': 'WARNING', 'log_message':
-                'Telnet access! Use ssh instead'},
-               {'log_level': 'INFO', 'log_message': 'User wil isconnected'}],
-              42, ['Hi', 'five']]
+    stream = ['Hello world',
+              [3.14, -1, 2.71],
+              [{'log_level': 'WARNING',
+                'log_message': 'Telnet access! Use ssh instead'},
+               {'log_level': 'INFO', 'log_message': 'User wil is connected'}],
+              42,
+              ['Hi', 'five']]
 
     print(f"\nSend first batch of data on stream: {stream}")
     ds.process_stream(stream)
