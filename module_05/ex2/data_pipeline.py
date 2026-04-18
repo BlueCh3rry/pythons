@@ -9,13 +9,6 @@ class DataProcessor(ABC):
         self.counter = 0
         self.output_index = -1
 
-    def output(self) -> tuple[int, str]:
-        if not self.storage:
-            raise Exception("No data to output")
-        value = self.storage.pop(0)
-        self.output_index += 1
-        return self.output_index, value
-
     @abstractmethod
     def validate(self, data: Any) -> bool:
         pass
@@ -23,6 +16,13 @@ class DataProcessor(ABC):
     @abstractmethod
     def ingest(self, data: Any) -> None:
         pass
+
+    def output(self) -> tuple[int, str]:
+        if not self.storage:
+            raise Exception("No data to output")
+        value = self.storage.pop(0)
+        self.output_index += 1
+        return self.output_index, value
 
 
 class NumericProcessor(DataProcessor):

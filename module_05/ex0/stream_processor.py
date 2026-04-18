@@ -60,14 +60,13 @@ class TextProcessor(DataProcessor):
             self.storage.append(data)
 
 
+def is_valid_dict(d):
+    return (isinstance(d, dict) and all
+            (isinstance(k, str) and isinstance(v, str) for k, v in d.items()))
+
+
 class LogProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
-        def is_valid_dict(d):
-            return (
-                isinstance(d, dict)
-                and all(isinstance(k, str) and isinstance(v, str) for k, v in d.items())
-            )
-
         if is_valid_dict(data):
             return True
         if isinstance(data, list):
