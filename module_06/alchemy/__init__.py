@@ -1,13 +1,9 @@
-from .elements import create_fire, create_water
-
-__version__ = "1.0.0"
-__author__ = "Master Pythonicus"
-
-
-def main() -> None:
-    print(f"alchemy.create_fire(): {create_fire()}:")
-    print(f"alchemy.create_water(): {create_water()}")
+from .elements import create_air
+from .potions import strength_potion, healing_potion
+from .transmutation import lead_to_gold
 
 
-if __name__ == "__main__":
-    main()
+heal = healing_potion
+
+
+__all__ = ["create_air", "strength_potion", "heal", "lead_to_gold"]
