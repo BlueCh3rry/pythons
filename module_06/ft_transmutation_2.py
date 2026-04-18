@@ -1,7 +1,7 @@
 import alchemy
 
 
-def main():
+def main() -> None:
     print("=== Transmutation 2 ===")
     print("Import alchemy module directly")
     print("Testing lead to gold:",
