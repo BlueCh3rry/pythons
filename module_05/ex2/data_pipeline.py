@@ -1,13 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import Any, Protocol
-import json
 
 
 class DataProcessor(ABC):
     def __init__(self):
         self.storage = []
         self.counter = 0
-        self.output_index = -1
+        self.output_index = 0
 
     @abstractmethod
     def validate(self, data: Any) -> bool:
@@ -21,19 +20,22 @@ class DataProcessor(ABC):
         if not self.storage:
             raise Exception("No data to output")
         value = self.storage.pop(0)
+        rank = self.output_index
         self.output_index += 1
-        return self.output_index, value
+        return rank, value
 
 
 class NumericProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, (int, float)):
             return True
-        if isinstance(data, list) and data:
+        if isinstance(data, list):
             return all(isinstance(x, (int, float)) for x in data)
         return False
 
     def ingest(self, data: Any) -> None:
+        if not self.validate(data):
+            raise ValueError("Improper numeric data")
         if isinstance(data, list):
             for x in data:
                 self.storage.append(str(x))
@@ -47,11 +49,13 @@ class TextProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, str):
             return True
-        if isinstance(data, list) and data:
+        if isinstance(data, list):
             return all(isinstance(x, str) for x in data)
         return False
 
     def ingest(self, data: Any) -> None:
+        if not self.validate(data):
+            raise ValueError("Improper text data")
         if isinstance(data, list):
             for x in data:
                 self.storage.append(x)
@@ -61,22 +65,29 @@ class TextProcessor(DataProcessor):
             self.counter += 1
 
 
-def is_valid_dict(d):
-    return (isinstance(d, dict) and "log_level" in d and "log_message" in d)
+def is_valid_dict(d: Any) -> bool:
+    return (
+        isinstance(d, dict)
+        and "log_level" in d
+        and "log_message" in d
+        and isinstance(d["log_level"], str)
+        and isinstance(d["log_message"], str)
+    )
+
+
+def format_log(d: dict) -> str:
+    return f"{d.get('log_level')}: {d.get('log_message')}"
 
 
 class LogProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
-        if is_valid_dict(data):
-            return True
-        if isinstance(data, list) and data:
+        if isinstance(data, list):
             return all(is_valid_dict(item) for item in data)
-        return False
+        return is_valid_dict(data)
 
     def ingest(self, data: Any) -> None:
-        def format_log(d: dict) -> str:
-            return f"{d.get('log_level')}: {d.get('log_message')}"
-
+        if not self.validate(data):
+            raise ValueError("Improper log data")
         if isinstance(data, list):
             for item in data:
                 self.storage.append(format_log(item))
@@ -86,10 +97,12 @@ class LogProcessor(DataProcessor):
             self.counter += 1
 
 
-class CSVExportPlugin:
-    def __init__(self):
-        pass
+class ExportPlugin(Protocol):
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        ...
 
+
+class CSVExportPlugin:
     def process_output(self, data: list[tuple[int, str]]) -> None:
         values = [value for _, value in data]
         print("CSV Output:")
@@ -97,23 +110,13 @@ class CSVExportPlugin:
 
 
 class JSONExportPlugin:
-    def __init__(self):
-        pass
-
     def process_output(self, data: list[tuple[int, str]]) -> None:
         result = {}
-
-        for idx, (counter, value) in enumerate(data):
+        for counter, value in data:
             key = f"item_{counter}"
             result[key] = value
-
         print("JSON Output:")
-        print(json.dumps(result))
-
-
-class ExportPlugin(Protocol):
-    def process_output(self, data: list[tuple[int, str]]) -> None:
-        ...
+        print(result)
 
 
 class DataStream():

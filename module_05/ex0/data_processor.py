@@ -32,9 +32,9 @@ class NumericProcessor(DataProcessor):
             return all(isinstance(x, (int, float)) for x in data)
         return False
 
-    def ingest(self, data: int | float | list[int | float]) -> None:
+    def ingest(self, data: Any) -> None:
         if not self.validate(data):
-            raise Exception("Improper numeric data")
+            raise ValueError("Improper numeric data")
         if isinstance(data, list):
             for x in data:
                 self.storage.append(str(x))
@@ -50,19 +50,27 @@ class TextProcessor(DataProcessor):
             return all(isinstance(x, str) for x in data)
         return False
 
-    def ingest(self, data: str | list[str]) -> None:
+    def ingest(self, data: Any) -> None:
         if not self.validate(data):
-            raise Exception("Improper text data")
-
+            raise ValueError("Improper text data")
         if isinstance(data, list):
             self.storage.extend(data)
         else:
             self.storage.append(data)
 
 
-def is_valid_dict(d):
-    return (isinstance(d, dict) and all
-            (isinstance(k, str) and isinstance(v, str) for k, v in d.items()))
+def is_valid_dict(d: Any) -> bool:
+    return (
+        isinstance(d, dict)
+        and "log_level" in d
+        and "log_message" in d
+        and isinstance(d["log_level"], str)
+        and isinstance(d["log_message"], str)
+    )
+
+
+def format_log(d: dict) -> str:
+    return f"{d.get('log_level')}: {d.get('log_message')}"
 
 
 class LogProcessor(DataProcessor):
@@ -73,15 +81,9 @@ class LogProcessor(DataProcessor):
             return all(is_valid_dict(item) for item in data)
         return False
 
-    def ingest(self, data: dict[str, str]) -> None:
+    def ingest(self, data: Any) -> None:
         if not self.validate(data):
-            raise Exception("Improper log data")
-
-        def format_log(d: dict[str, str]) -> str:
-            level = d.get("log_level", "")
-            message = d.get("log_message", "")
-            return f"{level}: {message}"
-
+            raise ValueError("Improper log data")
         if isinstance(data, list):
             for item in data:
                 self.storage.append(format_log(item))
