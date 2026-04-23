@@ -1,5 +1,7 @@
+import alchemy.grimoire
+
+
 def main() -> None:
-    import alchemy.grimoire
     print("=== Kaboum 0 ===")
     print("Using grimoire module directly")
     ing = "Earth, wind and fire"
