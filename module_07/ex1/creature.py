@@ -44,7 +44,7 @@ class Shiftling(Creature, TransformCapability):
         TransformCapability.__init__(self)
 
     def attack(self) -> str:
-        return "Shiftling attacks normally."
+        return "Shiftling performs a boosted strike!"
 
     def transform(self) -> str:
         self.transformed = True
