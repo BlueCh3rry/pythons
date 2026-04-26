@@ -18,7 +18,6 @@ class AggressiveStrategy(BattleStrategy):
             raise InvalidStrategyException(
                 f"Invalid Creature '{creature.name}'"
                 " for this aggressive strategy")
-
         return [
             creature.transform(),
             creature.attack(),
@@ -33,9 +32,7 @@ class DefensiveStrategy(BattleStrategy):
         if not self.is_valid(creature):
             raise InvalidStrategyException(
                 f"Invalid Creature '{creature.name}'"
-                " for this defensive strategy"
-            )
-
+                " for this defensive strategy")
         return [
             creature.attack(),
             creature.heal()]
