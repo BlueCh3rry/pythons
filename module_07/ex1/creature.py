@@ -1,19 +1,6 @@
-from abc import ABC, abstractmethod
 from .capabilities import HealCapability
 from .capabilities import TransformCapability
-
-
-class Creature(ABC):
-    def __init__(self, name: str, elem: str):
-        self.name = name
-        self.elem = elem
-
-    def describe(self) -> str:
-        return f"{self.name} is a {self.elem} type Creature"
-
-    @abstractmethod
-    def attack(self) -> str:
-        pass
+from ex0.creature import Creature
 
 
 class Sproutling(Creature, HealCapability):
@@ -44,7 +31,9 @@ class Shiftling(Creature, TransformCapability):
         TransformCapability.__init__(self)
 
     def attack(self) -> str:
-        return "Shiftling performs a boosted strike!"
+        if self.transformed:
+            return "Shiftling performs a boosted strike!"
+        return "Shiftling attacks normally."
 
     def transform(self) -> str:
         self.transformed = True

@@ -18,6 +18,7 @@ class AggressiveStrategy(BattleStrategy):
             raise InvalidStrategyException(
                 f"Invalid Creature '{creature.name}'"
                 " for this aggressive strategy")
+
         return [
             creature.transform(),
             creature.attack(),

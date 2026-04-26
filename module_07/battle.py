@@ -22,8 +22,9 @@ def main() -> None:
 
     print("\nTesting battle")
     print(p1.describe())
-    print("vs.")
+    print(" vs.")
     print(p3.describe())
+    print(" fight!")
     print(p1.attack())
     print(p3.attack())
 

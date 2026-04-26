@@ -7,7 +7,7 @@ from ex2.strategy import InvalidStrategyException
 
 
 def fight(creature_a, strategy_a, creature_b, strategy_b) -> bool:
-    print("* Battle *")
+    print("\n* Battle *")
     print(creature_a.describe())
     print(" vs.")
     print(creature_b.describe())
@@ -39,22 +39,25 @@ def run_tournament(opponents) -> None:
 
 def main() -> None:
     print("Tournament 0 (basic)")
+    print("[ (Flameling+Normal), (Healing+Defensive) ]")
+    aqua_factory = AquaFactory()
+    flame_factory = FlameFactory()
+    transform_factory = TransformCreatureFactory()
     healing_factory = HealingCreatureFactory()
     opponents0 = [
-        (healing_factory.create_base(), NormalStrategy()),
-        (healing_factory.create_evolved(), DefensiveStrategy())]
+        (flame_factory.create_base(), NormalStrategy()),
+        (healing_factory.create_base(), DefensiveStrategy())]
     run_tournament(opponents0)
 
     print("\nTournament 1 (error)")
-    flame_factory = FlameFactory()
+    print("[ (Flameling+Aggressive), (Healing+Defensive) ]")
     opponents1 = [
         (flame_factory.create_base(), AggressiveStrategy()),
         (healing_factory.create_base(), DefensiveStrategy())]
     run_tournament(opponents1)
 
     print("\nTournament 2 (multiple)")
-    aqua_factory = AquaFactory()
-    transform_factory = TransformCreatureFactory()
+    print("[ (Aquabub+Normal), (Healing+Defensive), (Transform+Aggressive) ]")
     opponents2 = [
         (aqua_factory.create_base(), NormalStrategy()),
         (healing_factory.create_base(), DefensiveStrategy()),
