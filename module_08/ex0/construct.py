@@ -19,5 +19,6 @@ def main() -> None:
     print("matrix_env\Scripts\activate # On Windows")
     print("Then run this program again")
 
+
 if __name__ == "__main__":
     main()
