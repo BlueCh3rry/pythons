@@ -22,8 +22,10 @@ def battle(pair: Tuple[Opponent, Opponent]) -> bool:
     print("now fight!")
 
     try:
-        strategy_a.act(creature_a)
-        strategy_b.act(creature_b)
+        for action in strategy_a.act(creature_a):
+            print(action)
+        for action in strategy_b.act(creature_b):
+            print(action)
     except InvalidStrategyException as e:
         print(f"Battle error, aborting tournament: {e}")
         return False

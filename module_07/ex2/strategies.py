@@ -1,19 +1,20 @@
 from .strategy import BattleStrategy, InvalidStrategyException
+from typing import Any
 
 
 class NormalStrategy(BattleStrategy):
-    def is_valid(self, creature) -> bool:
+    def is_valid(self, creature: Any) -> bool:
         return True
 
-    def act(self, creature):
+    def act(self, creature: Any):
         return [creature.attack()]
 
 
 class AggressiveStrategy(BattleStrategy):
-    def is_valid(self, creature) -> bool:
+    def is_valid(self, creature: Any) -> bool:
         return hasattr(creature, "transform")
 
-    def act(self, creature) -> list[str]:
+    def act(self, creature: Any) -> list[str]:
         if not self.is_valid(creature):
             raise InvalidStrategyException(
                 f"Invalid Creature '{creature.name}'"
@@ -25,10 +26,10 @@ class AggressiveStrategy(BattleStrategy):
 
 
 class DefensiveStrategy(BattleStrategy):
-    def is_valid(self, creature) -> bool:
+    def is_valid(self, creature: Any) -> bool:
         return hasattr(creature, "heal")
 
-    def act(self, creature) -> list[str]:
+    def act(self, creature: Any) -> list[str]:
         if not self.is_valid(creature):
             raise InvalidStrategyException(
                 f"Invalid Creature '{creature.name}'"
