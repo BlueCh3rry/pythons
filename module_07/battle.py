@@ -1,9 +1,8 @@
-from ex0.creaturefactory import FlameFactory, AquaFactory
+from ex0.creaturefactory import FlameFactory, AquaFactory, CreatureFactory
 
 
-def main() -> None:
+def test_creature(fact: CreatureFactory) -> None:
     print("Testing factory")
-    fact = FlameFactory()
     p1 = fact.create_base()
     print(p1.describe())
     print(p1.attack())
@@ -11,22 +10,27 @@ def main() -> None:
     print(p2.describe())
     print(p2.attack())
 
-    print("\nTesting factory")
-    fact2 = AquaFactory()
-    p3 = fact2.create_base()
-    print(p3.describe())
-    print(p3.attack())
-    p4 = fact2.create_evolved()
-    print(p4.describe())
-    print(p4.attack())
 
-    print("\nTesting battle")
+def battle(fact1: CreatureFactory, fact2: CreatureFactory) -> None:
+    print("Testing battle")
+    p1 = fact1.create_base()
+    p3 = fact2.create_base()
     print(p1.describe())
     print(" vs.")
     print(p3.describe())
     print(" fight!")
     print(p1.attack())
     print(p3.attack())
+
+
+def main() -> None:
+    flame_factory = FlameFactory()
+    aqua_factory = AquaFactory()
+    test_creature(flame_factory)
+    print()
+    test_creature(aqua_factory)
+    print()
+    battle(flame_factory, aqua_factory)
 
 
 if __name__ == "__main__":
