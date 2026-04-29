@@ -4,8 +4,6 @@ from ex1.creaturefactory import TransformCreatureFactory
 from ex2.strategies import NormalStrategy, AggressiveStrategy
 from ex2.strategies import DefensiveStrategy
 from ex2.strategy import InvalidStrategyException, BattleStrategy
-
-
 from typing import List, Tuple
 
 
