@@ -1,9 +1,7 @@
-from ex0.creaturefactory import FlameFactory, AquaFactory, CreatureFactory
-from ex1.creaturefactory import HealingCreatureFactory
-from ex1.creaturefactory import TransformCreatureFactory
-from ex2.strategies import NormalStrategy, AggressiveStrategy
-from ex2.strategies import DefensiveStrategy
-from ex2.strategy import InvalidStrategyException, BattleStrategy
+from ex0 import FlameFactory, AquaFactory, CreatureFactory
+from ex1 import HealingCreatureFactory, TransformCreatureFactory
+from ex2 import NormalStrategy, AggressiveStrategy, DefensiveStrategy
+from ex2 import InvalidStrategyException, BattleStrategy
 from typing import List, Tuple
 
 

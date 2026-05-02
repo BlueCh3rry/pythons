@@ -1,5 +1,4 @@
-from ex1.creaturefactory import HealingCreatureFactory
-from ex1.creaturefactory import TransformCreatureFactory
+from ex1 import HealingCreatureFactory, TransformCreatureFactory
 
 
 def main() -> None:
