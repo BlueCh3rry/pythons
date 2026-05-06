@@ -1,9 +1,4 @@
-pandas=2.1.0
-umpy=1.25.0
-requests=2.31.0
-matplotlib=3.7.2
-
-pandas=Data manipulation
-umpy=Numerical computation
-requests=Network access
-matplotlib=Visualization
+pandas==2.1.0 # Data manipulation
+numpy==1.25.0 # Numerical computation
+requests==2.31.0 # Network access
+matplotlib==3.7.2 # Visualization
