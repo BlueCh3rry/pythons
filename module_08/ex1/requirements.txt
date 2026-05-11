@@ -1,4 +1,4 @@
 pandas==2.1.0 # Data manipulation
 numpy==1.25.0 # Numerical computation
 requests==2.31.0 # Network access
-matplotlb==3.7.2 # Visualization
+matplotlib==3.7.2 # Visualization

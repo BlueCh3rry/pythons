@@ -1,6 +1,7 @@
 import pandas
 import numpy
-import matplotlib.pyplot
+import matplotlib.pyplot  # type: ignore
+import importlib
 
 
 def main() -> None:
@@ -29,7 +30,7 @@ def main() -> None:
             print("[ERROR - MISSING]", Req[i])
         i += 1
 
-    print("Analyzing Matrix data...")
+    print("\nAnalyzing Matrix data...")
     print("Processing 1000 data points...")
     matrix = numpy.random.normal(size=1000)
     print("Generating visualization...")
@@ -38,7 +39,7 @@ def main() -> None:
     matplotlib.pyplot.title("Matrix Data Distribution")
     matplotlib.pyplot.savefig(
         "/home/mmakhmae/42cursus/pythons/module_08/ex1/matrix_analysis.png")
-    print("Analysis complete!")
+    print("\nAnalysis complete!")
     print("Results saved to: matrix_analysis.png")
 
 
