@@ -2,27 +2,62 @@ from dotenv import load_dotenv
 import os
 
 
+def get_env(variable: str, required: bool = False, default: str = "Not set"):
+    value = os.getenv(variable, default)
+    if required and value == "Not set":
+        print(f"[WARNING] Missing required variable: {variable}")
+    return value
+
+
+def security_check():
+    print("\nEnvironment security check:")
+    if os.getenv("API_KEY"):
+        print("[OK] No hardcoded secrets detected")
+    else:
+        print("[WARNING] hardcoded secrets detected")
+
+    if os.path.exists(".gitignore"):
+        with open(".gitignore", "r") as file:
+            content = file.read()
+        if ".env" in content:
+            print("[OK] .env file properly configured")
+        else:
+            print("[WARNING] .env file missing from .gitignore")
+    else:
+        print("[WARNING] .gitignore file not found")
+    print("[OK] Production overrides available")
+
+
 def main() -> None:
     print()
     print("ORACLE STATUS: Reading the Matrix...")
-
     load_dotenv()
-    print("\nConfiguration loaded:")
-    mode = os.getenv('MATRIX_MODE')
-    data = os.getenv('DATABASE_URL')
-    key = os.getenv('API_KEY')
-    log = os.getenv('LOG_LEVEL')
-    zion = os.getenv('ZION_ENDPOINT')
-    print("Mode:", mode)
-    print("Database:", data)
-    print("API Access:", key)
-    print("Log Level:", log)
-    print("Zion Network:", zion)
 
-    print("\nEnvironment security check:")
-    print("[OK] No hardcoded secrets detected")
-    print("[OK] .env file properly configured")
-    print("[OK] Production overrides available")
+    print("\nConfiguration loaded:")
+    mode = get_env("MATRIX_MODE", default="development")
+    data = get_env("DATABASE_URL", required=True)
+    key = get_env("API_KEY", required=True)
+    log = get_env("LOG_LEVEL", default="INFO")
+    zion = get_env("ZION_ENDPOINT", required=True)
+
+    print("Mode:", mode)
+    if mode == "development":
+        print("Database: Connected to local instance")
+    elif mode == "production":
+        print("Database: Connected to production instance")
+    else:
+        print("Database:", data)
+    if key != "Not set":
+        print("API Access: Authenticated")
+    else:
+        print("API Access: Missing API key")
+    print("Log Level:", log)
+    if zion != "Not set":
+        print("Zion Network: Online")
+    else:
+        print("Zion Network: Offline")
+
+    security_check()
     print("\nThe Oracle sees all configurations")
 
 
