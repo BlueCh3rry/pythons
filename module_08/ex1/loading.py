@@ -1,17 +1,5 @@
 import importlib
-
-
-pandas = importlib.import_module("pandas")
-numpy = importlib.import_module("numpy")
-plt = importlib.import_module("matplotlib.pyplot")
-
-
-AUTHORIZED = {
-    "pandas": "Data manipulation",
-    "numpy": "Numerical computation",
-    "requests": "Network access",
-    "matplotlib": "Visualization",
-}
+from importlib.metadata import version
 
 
 """
@@ -32,50 +20,37 @@ python3 -m poetry run python loading.py
 """
 
 
-def read_dependencies(path: str) -> list[tuple[str, str]]:
-    dependencies = []
-    data = pandas.read_csv(path, header=None)
-    for raw_line in data[0]:
-        line = raw_line.strip()
-        if "==" not in line:
-            continue
-        line = line.replace('"', "")
-        line = line.replace(",", "")
-        dependency = line.split("#")[0].strip()
-        name, version = dependency.split("==", 1)
-        dependencies.append((name.strip(), version.strip()))
-    return dependencies
+def get_dependecy(name: str) -> bool:
+    try:
+        importlib.import_module(name)
+        return True
+    except ImportError:
+        return False
 
 
-def verify_missing(installed: list[str], file: str) -> None:
-    for package in AUTHORIZED:
-        if package not in installed:
-            print(f"[ERROR - MISSING in {file}] {package}")
-
-
-def check_dep(path: str, file: str) -> None:
-    dependencies = read_dependencies(path)
-    installed = []
-    for name, version in dependencies:
-        if name in AUTHORIZED:
-            description = AUTHORIZED[name]
-            installed.append(name)
-            print(f"[OK] {name} ({version}) - {description} ready")
-        else:
-            print(f"[ERROR] {name} ({version}) - unauthorized package")
-    verify_missing(installed, file)
+def get_version(name: str) -> str | None:
+    try:
+        return version(name)
+    except ImportError:
+        return None
 
 
 def main() -> None:
-
     print("\nLOADING STATUS: Loading programs...")
-
     print("\nChecking dependencies:")
-    data = "/home/mmakhmae/42cursus/pythons/module_08/ex1/requirements.txt"
-    data2 = "/home/mmakhmae/42cursus/pythons/module_08/ex1/pyproject.toml"
+    Req = {
+        "pandas": "Data manipulation",
+        "numpy": "Numerical computation",
+        "matplotlib": "Visualization",
+    }
+    for name in Req:
+        if get_dependecy(name) is True:
+            if get_version(name) is not None:
+                print(f"[OK] {name} {get_version(name)}- {Req[name]}")
 
-    check_dep(data, "requirements.txt")
-    # check_dep(data2, "pyproject.toml")
+    pandas = importlib.import_module("pandas")
+    numpy = importlib.import_module("numpy")
+    plt = importlib.import_module("matplotlib.pyplot")
 
     print("\nAnalyzing Matrix data...")
     print("Processing 1000 data points...")

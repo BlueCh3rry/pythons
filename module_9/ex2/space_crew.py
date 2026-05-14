@@ -1,7 +1,6 @@
 from datetime import datetime
 from enum import Enum
 from typing import List
-
 from pydantic import BaseModel, Field, ValidationError, model_validator
 
 
@@ -142,7 +141,7 @@ def main():
             )
         ]
 
-        invalid_mission = SpaceMission(
+        SpaceMission(
             mission_id="M_BAD",
             mission_name="Failed Mission",
             destination="Moon",

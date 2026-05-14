@@ -1,7 +1,6 @@
 from datetime import datetime
 from enum import Enum
 from typing import Optional
-
 from pydantic import BaseModel, Field, ValidationError, model_validator
 
 
@@ -84,7 +83,7 @@ def main():
 
     # Invalid contact report
     try:
-        invalid_contact = AlienContact(
+        AlienContact(
             contact_id="AC_BAD",
             timestamp=datetime.now(),
             location="Mars Base",

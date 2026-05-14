@@ -34,11 +34,11 @@ def main() -> None:
     load_dotenv()
 
     print("\nConfiguration loaded:")
-    mode = get_env("MATRIX_MODE", default="development")
-    data = get_env("DATABASE_URL", required=True)
-    key = get_env("API_KEY", required=True)
-    log = get_env("LOG_LEVEL", default="INFO")
-    zion = get_env("ZION_ENDPOINT", required=True)
+    mode = get_env("MATRIX_MODE")
+    data = get_env("DATABASE_URL")
+    key = get_env("API_KEY")
+    log = get_env("LOG_LEVEL")
+    zion = get_env("ZION_ENDPOINT")
 
     print("Mode:", mode)
     if mode == "development":
