@@ -21,11 +21,11 @@ def security_check():
             content = file.read()
         if ".env" in content:
             print("[OK] .env file properly configured")
+            print("[OK] Production overrides available")
         else:
             print("[WARNING] .env file missing from .gitignore")
     else:
         print("[WARNING] .gitignore file not found")
-    print("[OK] Production overrides available")
 
 
 def main() -> None:
