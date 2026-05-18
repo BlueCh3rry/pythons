@@ -11,15 +11,15 @@ def get_env(variable: str, required: bool = False, default: str = "Not set"):
 
 def security_check():
     print("\nEnvironment security check:")
-    if os.getenv("API_KEY"):
-        print("[OK] No hardcoded secrets detected")
-    else:
-        print("[WARNING] hardcoded secrets detected")
 
     if os.path.exists(".gitignore"):
         with open(".gitignore", "r") as file:
             content = file.read()
         if ".env" in content:
+            if os.getenv("API_KEY"):
+                print("[OK] No hardcoded secrets detected")
+            else:
+                print("[WARNING] hardcoded secrets detected")
             print("[OK] .env file properly configured")
             print("[OK] Production overrides available")
         else:
