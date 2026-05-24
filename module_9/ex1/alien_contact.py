@@ -24,32 +24,19 @@ class AlienContact(BaseModel):
 
     @model_validator(mode="after")
     def validate_business_rules(self):
-        # Contact ID must start with "AC"
         if not self.contact_id.startswith("AC"):
             raise ValueError("Contact ID must start with 'AC'")
-
-        # Physical contact reports must be verified
         if self.contact_type == ContactType.physical and not self.is_verified:
             raise ValueError("Physical contact reports must be verified")
-
-        # Telepathic contact requires at least 3 witnesses
         if (
             self.contact_type == ContactType.telepathic
             and self.witness_count < 3
         ):
             raise ValueError(
-                "Telepathic contact requires at least 3 witnesses"
-            )
-
-        # Strong signals should include messages
-        if (
-            self.signal_strength > 7.0
-            and not self.message_received
-        ):
+                "Telepathic contact requires at least 3 witnesses")
+        if (self.signal_strength > 7.0 and not self.message_received):
             raise ValueError(
-                "Strong signals (> 7.0) should include received messages"
-            )
-
+                "Strong signals (> 7.0) should include received messages")
         return self
 
 
@@ -57,7 +44,6 @@ def main():
     print("Alien Contact Log Validation")
     print("=" * 38)
 
-    # Valid contact report
     valid_contact = AlienContact(
         contact_id="AC_2024_001",
         timestamp=datetime.now(),
@@ -69,7 +55,6 @@ def main():
         message_received="Greetings from Zeta Reticuli",
         is_verified=False
     )
-
     print("Valid contact report:")
     print(f"ID: {valid_contact.contact_id}")
     print(f"Type: {valid_contact.contact_type.value}")
@@ -90,7 +75,7 @@ def main():
             contact_type=ContactType.telepathic,
             signal_strength=5.0,
             duration_minutes=20,
-            witness_count=1,  # Invalid
+            witness_count=1,
             is_verified=False
         )
 

@@ -34,37 +34,23 @@ class SpaceMission(BaseModel):
 
     @model_validator(mode="after")
     def validate_mission_rules(self):
-        # Mission ID must start with "M"
         if not self.mission_id.startswith("M"):
             raise ValueError("Mission ID must start with 'M'")
-
-        # Must have at least one Commander or Captain
         has_leader = any(
             member.rank in [Rank.commander, Rank.captain]
-            for member in self.crew
-        )
-
+            for member in self.crew)
         if not has_leader:
             raise ValueError(
-                "Mission must have at least one Commander or Captain"
-            )
-
-        # Long missions need 50% experienced crew
+                "Mission must have at least one Commander or Captain")
         if self.duration_days > 365:
             experienced_count = sum(
                 member.years_experience >= 5
-                for member in self.crew
-            )
-
+                for member in self.crew)
             if experienced_count < len(self.crew) / 2:
                 raise ValueError(
-                    "Long missions (> 365 days) need 50% experienced crew"
-                )
-
-        # All crew members must be active
+                    "Long missions (> 365 days) need 50% experienced crew")
         if any(not member.is_active for member in self.crew):
             raise ValueError("All crew members must be active")
-
         return self
 
 
@@ -72,7 +58,6 @@ def main():
     print("Space Mission Crew Validation")
     print("=" * 41)
 
-    # Valid crew members
     crew_members = [
         CrewMember(
             member_id="CM001",
@@ -99,8 +84,6 @@ def main():
             years_experience=6
         )
     ]
-
-    # Valid mission
     valid_mission = SpaceMission(
         mission_id="M2024_MARS",
         mission_name="Mars Colony Establishment",
@@ -110,7 +93,6 @@ def main():
         crew=crew_members,
         budget_millions=2500.0
     )
-
     print("Valid mission created:")
     print(f"Mission: {valid_mission.mission_name}")
     print(f"ID: {valid_mission.mission_id}")
@@ -118,17 +100,12 @@ def main():
     print(f"Duration: {valid_mission.duration_days} days")
     print(f"Budget: ${valid_mission.budget_millions}M")
     print(f"Crew size: {len(valid_mission.crew)}")
-
     print("Crew members:")
     for member in valid_mission.crew:
-        print(
-            f"- {member.name} ({member.rank.value}) "
-            f"- {member.specialization}"
-        )
-
+        print(f"- {member.name} ({member.rank.value}) "
+              f"- {member.specialization}")
     print("=" * 41)
 
-    # Invalid mission
     try:
         invalid_crew = [
             CrewMember(
@@ -140,7 +117,6 @@ def main():
                 years_experience=4
             )
         ]
-
         SpaceMission(
             mission_id="M_BAD",
             mission_name="Failed Mission",
@@ -150,7 +126,6 @@ def main():
             crew=invalid_crew,
             budget_millions=500.0
         )
-
     except ValidationError as e:
         print("Expected validation error:")
         print(e.errors()[0]["msg"])

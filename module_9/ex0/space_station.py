@@ -35,10 +35,9 @@ def main():
     print(f"Power: {valid_station.power_level}%")
     print(f"Oxygen: {valid_station.oxygen_level}%")
     if valid_station.is_operational:
-        print("Status: 'Operational'")
+        print("Status: Operational\n")
     else:
-        print("Status: 'Not Operational'")
-
+        print("Status: Not Operational\n")
     print("=" * 40)
 
     # Invalid station
@@ -46,12 +45,11 @@ def main():
         SpaceStation(
             station_id="BAD001",
             name="Broken Station",
-            crew_size=25,  # Invalid: must be <= 20
+            crew_size=52,
             power_level=50.0,
             oxygen_level=70.0,
             last_maintenance=datetime.now()
         )
-
     except ValidationError as e:
         print("Expected validation error:")
         print(e.errors()[0]["msg"])
