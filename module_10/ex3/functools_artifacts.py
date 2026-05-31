@@ -1,7 +1,6 @@
-#!/usr/bin/python3
-
 import functools
 import operator
+from collections.abc import Callable
 
 
 def spell_reducer(spells: list[int], operation: str) -> int:
@@ -30,7 +29,7 @@ def spell_reducer(spells: list[int], operation: str) -> int:
     raise ValueError(f'Invalid operation : ({operation})')
 
 
-def partial_enchanter(base_enchantment: callable) -> dict[str, callable]:
+def partial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:
     return {
         'fire_enchant': functools.partial(
             base_enchantment, power=50, element='fire'),
@@ -52,7 +51,7 @@ def memoizied_fibonacci(n: int) -> int:
     return memoizied_fibonacci(n - 1) + memoizied_fibonacci(n - 2)
 
 
-def spell_dispatcher() -> callable:
+def spell_dispatcher() -> Callable:
 
     @functools.singledispatch
     def default(arg) -> str:

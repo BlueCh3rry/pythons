@@ -1,12 +1,9 @@
-#!/usr/bin/python3
-
-
 def artifact_sorter(artifacts: list[dict]) -> list[dict]:
-    return sorted(artifacts, key=lambda a: a["power"], reverse=True)
+    return sorted(artifacts, key=lambda arti: arti["power"], reverse=True)
 
 
 def power_filter(mages: list[dict], min_power: int) -> list[dict]:
-    return list(filter(lambda m: m["power"] >= min_power, mages))
+    return list(filter(lambda mage: mage["power"] >= min_power, mages))
 
 
 def spell_transformer(spells: list[str]) -> list[str]:
@@ -23,44 +20,35 @@ def mage_stats(mages: list[dict]) -> dict:
 
 def main() -> None:
     artifacts = [
-        {"name": "Lightning Rod", "power": 79, "type": "weapon"},
-        {"name": "Ice Wand", "power": 93, "type": "armor"},
-        {"name": "Storm Crown", "power": 112, "type": "focus"},
-        {"name": "Light Prism", "power": 60, "type": "accessory"},
+        {"name": "Fire Staff", "power": 92},
+        {"name": "Crystal Orb", "power": 85},
     ]
-    mages = [
-        {"name": "Ember", "power": 61, "element": "lightning"},
-        {"name": "Nova", "power": 83, "element": "ice"},
-        {"name": "Luna", "power": 92, "element": "ice"},
-        {"name": "Nova", "power": 98, "element": "fire"},
-        {"name": "Luna", "power": 69, "element": "earth"},
-    ]
-    spells = ["lightning", "tsunami", "heal", "darkness"]
 
-    print("=== Testing artifact sorter... ===")
-    for item in artifact_sorter(artifacts):
-        print(f"{item['name']} - {item['power']}")
-    print("")
+    spells = ["fireball", "heal", "shield"]
 
-    print("=== Testing power filter (min: 90)... ===")
-    for item in power_filter(artifacts, 90):
-        print(f"{item['name']} - {item['power']}")
-    print("")
+    print("\nTesting artifact sorter...")
+    item = artifact_sorter(artifacts)
+    print(f"{item[0]['name']} ({item[0]['power']} power) comes before",
+          f"{item[1]['name']} ({item[1]['power']} power)\n")
 
-    print("=== Testing spell transformer... ===")
-    for item in spell_transformer(spells):
-        print(item)
-    print("")
+    # print("Testing power filter (min: 90)...")
+    # for item1 in power_filter(artifacts, 90):
+    #     print(f"{item1['name']} - {item1['power']}")
+    # print()
 
-    print("=== Testing mages stats... ===")
-    stats = mage_stats(mages)
-    print(
-        f"Max power: {stats['max_power']}\n"
-        f"Min power: {stats['min_power']}\n"
-        f"Average power: {stats['avg_power']}"
-    )
-    print("")
-    return None
+    print("Testing spell transformer...")
+    for item2 in spell_transformer(spells):
+        print(f"{item2} ", end="")
+    print("\n")
+
+    # print("Testing spell stats...")
+    # stats = mage_stats(artifacts)
+    # print(
+    #     f"Max power: {stats['max_power']}\n"
+    #     f"Min power: {stats['min_power']}\n"
+    #     f"Average power: {stats['avg_power']}"
+    # )
+    # print()
 
 
 if __name__ == "__main__":

@@ -1,16 +1,15 @@
-#!/usr/bin/python3
-
-
 import functools
 import string
 import time
+from collections.abc import Callable
+from typing import Any
 
 
-def spell_timer(func: callable) -> callable:
+def spell_timer(func: Callable) -> Callable:
 
     # Decorator creation
     @functools.wraps(func)
-    def wrapper(*arg: any, **kwargs: any) -> callable:
+    def wrapper(*arg: Any, **kwargs: Any) -> Callable:
         # Doing stuffs here...
         print(f"Casting {func.__name__}...")
         start = time.time()
@@ -23,10 +22,10 @@ def spell_timer(func: callable) -> callable:
 
 
 # The first function is used to set the minimum power
-def power_validator(min_power: int) -> callable:
+def power_validator(min_power: int) -> Callable:
 
     # We create validate to be able to accept a function
-    def validate(func: callable) -> callable:
+    def validate(func: Callable) -> Callable:
 
         # Wrapper that chooses the return
         def print_message() -> None:
@@ -34,7 +33,7 @@ def power_validator(min_power: int) -> callable:
             return None
 
         @functools.wraps(func)
-        def wrapper(*arg: any, **kwargs: any) -> any:
+        def wrapper(*arg: Any, **kwargs: Any) -> Any:
             if arg[0] >= min_power:
                 return func(*arg, **kwargs)
             else:
@@ -43,11 +42,11 @@ def power_validator(min_power: int) -> callable:
     return validate
 
 
-def retry_spell(max_attempts: int) -> callable:
-    def retry(func: callable) -> callable:
+def retry_spell(max_attempts: int) -> Callable:
+    def retry(func: Callable) -> Callable:
 
         @functools.wraps(func)
-        def wrapper(*arg: any, **kwargs: any) -> any:
+        def wrapper(*arg: Any, **kwargs: Any) -> Any:
             i = 0
             while i < max_attempts:
                 try:
@@ -87,7 +86,7 @@ class MageGuild:
 
 
 @spell_timer
-def fireball_cast() -> None:
+def fireball_cast() -> str:
     return "Result: Fireball cast !"
 
 
