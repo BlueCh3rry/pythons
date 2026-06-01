@@ -4,10 +4,6 @@ from collections.abc import Callable
 
 
 def spell_reducer(spells: list[int], operation: str) -> int:
-    # Function lambda in reduce:
-    # First element is accumulator, second is the current item in the list
-    # Accumulator keeps its value, item iterate through the list
-    # last arg is the list to iterate
     if operation == 'add':
         return functools.reduce(
             lambda accumulator, item: operator.add(accumulator, item), spells
@@ -42,7 +38,7 @@ def partial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:
     }
 
 
-@functools.lru_cache  # Memoization decorator for recursive opti
+@functools.lru_cache
 def memoizied_fibonacci(n: int) -> int:
     if n == 0:
         return 0

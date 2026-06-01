@@ -30,13 +30,17 @@ def spell_sequence(spells: list[Callable]) -> Callable:
 def main() -> None:
     print('\nTesting spell combiner...')
 
-    def fireball() -> str:
-        return "Fireball hits Dragon"
+    def fireball(target: str, power: int) -> str:
+        if power > 0:
+            return f"Fireball hits {target}"
+        return f"Fireball hits {power} DMG to {target}"
 
-    def heal() -> str:
-        return "Heals Dragon"
+    def heal(target: str, power: int) -> str:
+        if power > 0:
+            return f"Heals {target}"
+        return f"Heals {target} {power} HP"
     combined = spell_combiner(fireball, heal)
-    print("Combined spell result:", combined())
+    print("Combined spell result:", combined("Dragon", 0))
     print()
 
     def power_ten() -> int:

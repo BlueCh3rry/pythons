@@ -6,28 +6,19 @@ from typing import Any
 
 
 def spell_timer(func: Callable) -> Callable:
-
-    # Decorator creation
     @functools.wraps(func)
     def wrapper(*arg: Any, **kwargs: Any) -> Callable:
-        # Doing stuffs here...
         print(f"Casting {func.__name__}...")
         start = time.time()
         value = func(*arg, **kwargs)
         end = time.time()
         print(f"Spell completed in {float(end - start):.2f} seconds")
-        # We return the returned value from the given function
         return value
     return wrapper
 
 
-# The first function is used to set the minimum power
 def power_validator(min_power: int) -> Callable:
-
-    # We create validate to be able to accept a function
     def validate(func: Callable) -> Callable:
-
-        # Wrapper that chooses the return
         def print_message() -> None:
             print("Insufficient power for this spell")
             return None
@@ -63,25 +54,19 @@ def retry_spell(max_attempts: int) -> Callable:
 class MageGuild:
     @staticmethod
     def validate_mage_name(name: str) -> bool:
-        # Checks lenght
         if not len(name) >= 3:
             return False
 
-        # Checks characters
         for letter in name:
             if (letter not in string.ascii_letters and letter != ' '):
                 return False
-
-        # Valid name
         return True
 
     def cast_spell(self, spell_name: str, power: int) -> str:
-
         @power_validator(min_power=10)
         def validate_power(power) -> None:
             print(f"Successfully cast {spell_name} with {power} power")
             return None
-
         return validate_power(power)
 
 
