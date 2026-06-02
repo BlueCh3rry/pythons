@@ -62,7 +62,7 @@ def main() -> None:
     # print('Testing conditional caster...')
     # print("Badly done: ", verif_spell("Snake", 0))
     # print("Well done: ", verif_spell("Snake", 50), "\n")
-    
+
     # lst_spells = spell_sequence([heal, fireball])
     # print('Testing spell sequence...')
     # print(lst_spells("Turtle", 48), "\n")
