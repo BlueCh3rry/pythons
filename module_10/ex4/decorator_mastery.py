@@ -46,10 +46,8 @@ def retry_spell(max_attempts: int) -> Callable:
                 except Exception:
                     trys += 1
                     if trys < max_attempts:
-                        print(
-                            f"Spell failed, retrying... "
-                            f"(attempt {trys}/{max_attempts})"
-                            )
+                        print(f"Spell failed, retrying... "
+                              f"(attempt {trys}/{max_attempts})")
             return f"Spell casting failed after {max_attempts} attempts"
         return wrapper
     return decorator
@@ -66,7 +64,7 @@ class MageGuild:
 
 
 def main() -> None:
-    print("Testing spell timer...")
+    print("\nTesting spell timer...")
 
     @spell_timer
     def fireball():
@@ -81,21 +79,20 @@ def main() -> None:
     def unstable_spell() -> str:
         raise Exception("Spell unstable!")
 
-    result = unstable_spell()
-    print(f"{result}")
+    print(unstable_spell())
 
     @retry_spell(3)
     def stable_spell():
         return "Waaaaaaagh spelled !"
+    print(stable_spell())
 
-    print(f"{stable_spell()}\n")
-    print("Testing MageGuild...")
-
+    print("\nTesting MageGuild...")
     guild = MageGuild()
     print(guild.validate_mage_name("harry potter"))
     print(guild.validate_mage_name("a"))
     print(guild.cast_spell("Lightning", 15))
     print(guild.cast_spell("Lightning", 5))
+    print()
 
 
 if __name__ == "__main__":
