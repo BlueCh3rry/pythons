@@ -4,6 +4,8 @@ from collections.abc import Callable
 
 
 def spell_reducer(spells: list[int], operation: str) -> int:
+    if not spells:
+        return 0
     if operation == 'add':
         return functools.reduce(
             lambda accumulator, item: operator.add(accumulator, item), spells
@@ -39,12 +41,12 @@ def partial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:
 
 
 @functools.lru_cache
-def memoizied_fibonacci(n: int) -> int:
+def memoized_fibonacci(n: int) -> int:
     if n == 0:
         return 0
     if n == 1:
         return 1
-    return memoizied_fibonacci(n - 1) + memoizied_fibonacci(n - 2)
+    return memoized_fibonacci(n - 1) + memoized_fibonacci(n - 2)
 
 
 def spell_dispatcher() -> Callable:
@@ -55,15 +57,18 @@ def spell_dispatcher() -> Callable:
 
     @default.register(int)
     def _(arg: int) -> str:
-        return f"Dealing {arg} damages"
+        return f"Damage spell: {arg} damage"
 
     @default.register(str)
     def _(arg: str) -> str:
-        return f"Enchant: {arg}"
+        return f"Enchantment: {arg}"
 
     @default.register(list)
     def _(arg: list) -> str:
-        return f"Casting every spells : {str.join(' | ', arg)}"
+        return f"Multi-cast: {len(arg)} spells"
+
+    def default(arg) -> str:
+        return "Unknown spell type"
 
     return default
 
@@ -90,8 +95,8 @@ def main() -> None:
     print('=== Testing memoized fibonacci ===')
     n1 = 38
     n2 = 37
-    print(f"Fibonacci of {n1} ->", memoizied_fibonacci(n1))
-    print(f"Fibonacci of {n2} ->", memoizied_fibonacci(n2))
+    print(f"Fibonacci of {n1} ->", memoized_fibonacci(n1))
+    print(f"Fibonacci of {n2} ->", memoized_fibonacci(n2))
     print('Try restarting the program without the '
           '@functools.lru_cache decorator :)')
     print('')

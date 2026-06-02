@@ -23,23 +23,21 @@ def spell_accumulator(initial_power: int) -> Callable:
 
 
 def enchantment_factory(enchantment_type: str) -> Callable:
-    etype = enchantment_type
-
     def enchanter(item_name: str) -> str:
-        return f"{etype} {item_name}"
+        return f"{enchantment_type} {item_name}"
     return enchanter
 
 
 def memory_vault() -> dict[str, Callable]:
-    dictionnary = {}
+    dictionary = {}
 
     def store(key: str, value: Any) -> None:
-        dictionnary[key] = value
+        dictionary[key] = value
         return None
 
     def recall(key: str) -> Any:
-        if key in dictionnary.keys():
-            return dictionnary[key]
+        if key in dictionary:
+            return dictionary[key]
         else:
             return "Memory not found"
     return {"store": store, "recall": recall}

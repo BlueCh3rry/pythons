@@ -2,28 +2,28 @@ from collections.abc import Callable
 
 
 def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
-    def combined() -> str:
-        return ", ".join([spell1(), spell2()])
+    def combined(target: str, power: int) -> tuple[str, str]:
+        return (spell1(target, power), spell2(target, power))
     return combined
 
 
 def power_amplifier(base_spell: Callable, multiplier: int) -> Callable:
-    def amplified() -> int:
-        return base_spell() * multiplier
+    def amplified(target: str, power: int) -> str:
+        return base_spell(target, power * multiplier)
     return amplified
 
 
 def conditional_caster(condition: Callable, spell: Callable) -> Callable:
-    def caster() -> str:
-        if condition(spell()):
-            return spell()
+    def caster(target: str, power: int) -> str:
+        if condition(target, power):
+            return spell(target, power)
         return "Spell fizzled"
     return caster
 
 
 def spell_sequence(spells: list[Callable]) -> Callable:
-    def sequence():
-        return [spell() for spell in spells]
+    def sequence(target: str, power: int) -> list[str]:
+        return [spell(target, power) for spell in spells]
     return sequence
 
 
@@ -31,34 +31,41 @@ def main() -> None:
     print('\nTesting spell combiner...')
 
     def fireball(target: str, power: int) -> str:
-        if power > 0:
+        if power <= 0:
             return f"Fireball hits {target}"
         return f"Fireball hits {power} DMG to {target}"
 
     def heal(target: str, power: int) -> str:
-        if power > 0:
+        if power <= 0:
             return f"Heals {target}"
         return f"Heals {target} {power} HP"
     combined = spell_combiner(fireball, heal)
     print("Combined spell result:", combined("Dragon", 0))
     print()
 
-    def power_ten() -> int:
-        return 10
-    amp_power = power_amplifier(power_ten, 3)
+    def blast(target: str, power: int) -> str:
+        if power <= 0:
+            return f"Blast {target}"
+        return f"Blasting {target}, {power} DMG"
+    amp_blast = power_amplifier(blast, 3)
     print('Testing power amplifier...')
-    print(f"Original: {power_ten()}, "
-          f"Amplified: {amp_power()}\n")
+    print(
+        f"Original: {blast('Wyvern', 10)}\n"
+        f"Amplified: {amp_blast('Wyvern', 10)}\n"
+    )
 
-    # def check_spell(spell: str) -> bool:
-    #     return spell == fireball()
-    # verif_spell = conditional_caster(check_spell, heal)
+    # def condition(target: str, power: int) -> bool:
+    #     if target and power:
+    #         return power >= 10
+    #     return False
+    # verif_spell = conditional_caster(condition, fireball)
     # print('Testing conditional caster...')
-    # print(verif_spell(), "\n")
-
+    # print("Badly done: ", verif_spell("Snake", 0))
+    # print("Well done: ", verif_spell("Snake", 50), "\n")
+    
     # lst_spells = spell_sequence([heal, fireball])
     # print('Testing spell sequence...')
-    # print(lst_spells())
+    # print(lst_spells("Turtle", 48), "\n")
 
 
 if __name__ == "__main__":
