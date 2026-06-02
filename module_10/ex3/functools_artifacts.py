@@ -7,35 +7,25 @@ def spell_reducer(spells: list[int], operation: str) -> int:
     if not spells:
         return 0
     if operation == 'add':
-        return functools.reduce(
-            lambda accumulator, item: operator.add(accumulator, item), spells
-        )
+        return functools.reduce(lambda x, y: operator.add(x, y), spells)
     if operation == 'multiply':
-        return functools.reduce(
-            lambda accumulator, item: operator.mul(accumulator, item), spells
-        )
+        return functools.reduce(operator.mul, spells)
     if operation == 'max':
-        return functools.reduce(
-            lambda accumulator, item: item if item > accumulator
-            else accumulator, spells
-        )
+        return functools.reduce(max, spells)
     if operation == 'min':
-        return functools.reduce(
-            lambda accumulator, item: item if item < accumulator
-            else accumulator, spells
-        )
+        return functools.reduce(min, spells)
     raise ValueError(f'Invalid operation : ({operation})')
 
 
 def partial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:
     return {
-        'fire_enchant': functools.partial(
+        'Fire_enc': functools.partial(
             base_enchantment, power=50, element='fire'),
 
-        'ice_enchant': functools.partial(
+        'Ice_enc': functools.partial(
             base_enchantment, power=50, element='ice'),
 
-        'lightning_enchant': functools.partial(
+        'Lightning_enc': functools.partial(
             base_enchantment, power=50, element='lightning'),
     }
 
@@ -50,10 +40,9 @@ def memoized_fibonacci(n: int) -> int:
 
 
 def spell_dispatcher() -> Callable:
-
     @functools.singledispatch
     def default(arg) -> str:
-        return f"Unknown type ({type(arg).__name__})"
+        return "Unknown spell type"
 
     @default.register(int)
     def _(arg: int) -> str:
@@ -66,48 +55,41 @@ def spell_dispatcher() -> Callable:
     @default.register(list)
     def _(arg: list) -> str:
         return f"Multi-cast: {len(arg)} spells"
-
-    def default(arg) -> str:
-        return "Unknown spell type"
-
     return default
 
 
 def main() -> None:
-    spells = [40, 6]
-    print('=== Testing Spell Reducer ===')
+    spells = [40, 10, 6]
+    print('\nTesting Spell Reducer...')
     print("Sum:", spell_reducer(spells, 'add'))
     print("Product:", spell_reducer(spells, 'multiply'))
     print("Max:", spell_reducer(spells, 'max'))
-    print("Min:", spell_reducer(spells, 'min'))
-    print('')
+    # print("Min:", spell_reducer(spells, 'min'))
+    print()
 
-    print('=== Testing Base Enchantment ===')
+    # print('Testing Partial Enchantment...')
+    # def base_enchantment(power, element, target) -> str:
+    #     return f"Attack {target} with {element} ({power} DMG)"
 
-    def base_enchantment(power, element, target) -> str:
-        return f"Attack {target} with {element} (power of {power})"
+    # enchants = partial_enchanter(base_enchantment)
+    # print(enchants['Fire_enc'](target='Wyvern'))
+    # print(enchants['Ice_enc'](target='Dragon'))
+    # print()
 
-    enchants = partial_enchanter(base_enchantment)
-    print(enchants['fire_enchant'](target='killer bunny'))
-    print(enchants['ice_enchant'](target='Laurent'))
-    print('')
+    print('Testing memoized fibonacci...')
+    print(f"Fibo({0}) :", memoized_fibonacci(0))
+    print(f"Fibo({1}) :", memoized_fibonacci(1))
+    print(f"Fibo({10}) :", memoized_fibonacci(10))
+    print(f"Fibo({15}) :", memoized_fibonacci(15))
+    print()
 
-    print('=== Testing memoized fibonacci ===')
-    n1 = 38
-    n2 = 37
-    print(f"Fibonacci of {n1} ->", memoized_fibonacci(n1))
-    print(f"Fibonacci of {n2} ->", memoized_fibonacci(n2))
-    print('Try restarting the program without the '
-          '@functools.lru_cache decorator :)')
-    print('')
-
-    print('=== Testing memoized fibonacci ===')
+    print('Testing spell dispatcher...')
     disp = spell_dispatcher()
-    print("List of spells ->\t\t", disp(['42 spell', 'Paco curse',
-                                         'Napoleon\'s rage']))
-    print("One string enchantment ->\t", disp("Curse of Evil Laurent"))
-    print("One damage int ->\t\t", disp(50))
-    return None
+    print(disp(42))
+    print(disp("fireball"))
+    print(disp(["fire", "water", "wind"]))
+    print(disp(None))
+    print()
 
 
 if __name__ == '__main__':
