@@ -82,6 +82,8 @@ def main() -> None:
     print(f"Fibo({10}) :", memoized_fibonacci(10))
     print(f"Fibo({15}) :", memoized_fibonacci(15))
     print()
+    print(memoized_fibonacci.cache_info())
+    print()
 
     print('Testing spell dispatcher...')
     disp = spell_dispatcher()
