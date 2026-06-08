@@ -6,11 +6,18 @@ def give_base(base_nbr: int) -> str:
 def number_base_converter(number: str, from_base: int, to_base: int) -> str:
     if number is None:
         return "ERROR"
-    val = int(number, from_base)
-    if val == 0:
-        return "0"
 
-    digits = give_base(to_base)
+    try:
+        val = int(number, from_base)
+        if val == 0:
+            return "0"
+    except ValueError:
+        return "ERROR"
+
+    try:
+        digits = give_base(to_base)
+    except ValueError:
+        return "ERROR"
     res = ""
     while val > 0:
         res = digits[val % to_base] + res
@@ -19,7 +26,7 @@ def number_base_converter(number: str, from_base: int, to_base: int) -> str:
 
 
 def main():
-    test = number_base_converter("1010", 2, 10)
+    test = number_base_converter("123", 10, 42)
     print(test)
 
 

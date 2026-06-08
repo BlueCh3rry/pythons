@@ -20,7 +20,7 @@ def twist_sequence(arr: list[int], k: int) -> list[int]:
 
 
 def main():
-    test = twist_sequence([1, 2, 3, 4], 4)
+    test = twist_sequence([1, 2, 3, 4], 3)
     print(test)
 
 
