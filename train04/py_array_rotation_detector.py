@@ -1,14 +1,18 @@
 """
 
 "
-FORBIDDEN built-ins / modules: collections.deque.rotate(). Use only permitted built-in functions to avoid getting 0 on exam day.
+FORBIDDEN built-ins / modules: collections.deque.rotate().
+Use only permitted built-in functions to avoid getting 0 on exam day.
 "
 
-Write a Python function that takes two lists (arrays) as parameters and determines if the second list is a rotation of the first list (left or right).
+Write a Python function that takes two lists (arrays) as parameters and
+determines if the second list is a rotation of the first list (left or right).
 
-A rotation means that the elements are shifted circularly. For example, shifting [1, 2, 3] to the right by one position results in [3, 1, 2].
+A rotation means that the elements are shifted circularly. For example,
+shifting [1, 2, 3] to the right by one position results in [3, 1, 2].
 
-The function must return True if arr2 is a rotation of arr1, and False otherwise.
+The function must return True if arr2 is a rotation of arr1, and False
+otherwise.
 If the arrays have different lengths, they cannot be rotations of each other.
 Two empty arrays are considered rotations of each other.
 
@@ -29,6 +33,7 @@ array_rotation_detector([], [])
 -> True
 
 """
+
 
 def array_rotation_detector(arr1: list, arr2: list) -> bool:
     i = 0
@@ -52,12 +57,14 @@ def array_rotation_detector(arr1: list, arr2: list) -> bool:
         j += 1
     return True
 
+
 def main():
     print("1", array_rotation_detector([1, 2, 3, 4, 5], [4, 5, 1, 2, 3]))
-    print("2", array_rotation_detector([1, 2, 3, 4, 5], [5, 1, 2, 3, 4])) 
-    print("3", array_rotation_detector([1, 2, 3], [3, 2, 1])) 
-    print("4",array_rotation_detector([1, 2], [1, 2, 3])) 
-    print("5",array_rotation_detector([], []))
+    print("2", array_rotation_detector([1, 2, 3, 4, 5], [5, 1, 2, 3, 4]))
+    print("3", array_rotation_detector([1, 2, 3], [3, 2, 1]))
+    print("4", array_rotation_detector([1, 2], [1, 2, 3]))
+    print("5", array_rotation_detector([], []))
+
 
 if __name__ == "__main__":
     main()
