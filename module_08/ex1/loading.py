@@ -59,8 +59,10 @@ def main() -> None:
     df = pandas.DataFrame(matrix, columns=["values"])
     plt.hist(df["values"], bins=30)
     plt.title("Matrix Data Distribution")
+    # plt.savefig(
+    #     "/home/mmakhmae/42cursus/pythons/module_08/ex1/matrix_analysis.png")
     plt.savefig(
-        "/home/mmakhmae/42cursus/pythons/module_08/ex1/matrix_analysis.png")
+        "C:/Users/Red/home/42cursus/pythons/module_08/ex1/matrix_analysis.png")
     print("\nAnalysis complete!")
     print("Results saved to: matrix_analysis.png")
 
