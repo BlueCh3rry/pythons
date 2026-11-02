@@ -33,9 +33,17 @@ palindrome_partitioner("abc")
 """
 
 
+def sortalpha(lst: list[str]) -> str:
+
+    res = "".join
+    return res 
+
+
 def palindrome_partitioner(s: str) -> int:
     cuts = 0
-    i = len(s)/2
+    if not s or len(s) == 1:
+        return cuts
+    i = round(len(s)/2)
     while i != 0:
         
         return len(s)-1
@@ -48,8 +56,6 @@ def main():
     print("2", palindrome_partitioner("aba"))
     print("3", palindrome_partitioner("abc"))
 
-kayak
-boppob
 
 if __name__ == "__main__":
     main()
