@@ -50,12 +50,39 @@ package_dependency_resolver({"web": [], "api": [], "frontend": ["web"], "backend
 """
 
 
+
 def package_dependency_resolver(packages: dict[str, list[str]]) -> list[str]:
     if not packages:
         return []
-    required_pack = packages.values()
-    
-    return required_pack
+
+    # Number of dependencies for each package
+    indegree = {pkg: 0 for pkg in packages}
+
+    # Reverse dependency graph
+    dependents = {pkg: [] for pkg in packages}
+    for pkg, deps in packages.items():
+        for dep in deps:
+            if dep in packages:
+                indegree[pkg] += 1
+                dependents[dep].append(pkg)
+
+    # Start with packages having no dependencies
+    queue = sorted(pkg for pkg in packages if indegree[pkg] == 0)
+    result = []
+    while queue:
+        current = queue.pop(0)
+        result.append(current)
+        for dependent in dependents[current]:
+            indegree[dependent] -= 1
+            if indegree[dependent] == 0:
+                queue.append(dependent)
+        queue.sort()
+
+    # If not all packages were installed, there's a cycle
+    if len(result) != len(packages):
+        return []
+    return result
+
 
 
 def main():
